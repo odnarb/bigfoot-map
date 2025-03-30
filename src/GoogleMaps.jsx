@@ -1,8 +1,8 @@
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
-import React from 'react'
+import React, { useCallback, useState } from "react";
+import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api";
 
 const containerStyle = {
-  width: '800px',
+  width: "100%",
   height: '800px',
 }
 
@@ -11,23 +11,39 @@ const center = {
   lng: -95.712891
 }
 
+// Generate 10 random coordinates within the continental US
+const generateRandomMarkers = () => {
+  const markers = [];
+  for (let i = 0; i < 10; i++) {
+    const lat = 24 + Math.random() * (49 - 24); // USA Latitude range
+    const lng = -125 + Math.random() * (-66 - -125); // USA Longitude range
+    markers.push({
+      id: i,
+      position: { lat, lng },
+      info: `Marker #${i + 1} - Random Point`
+    });
+  }
+  return markers;
+};
+
+
 function GoogleMaps() {
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
+    id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-  })
+  });
 
-  const [map, setMap] = React.useState(null)
 
-  const onLoad = React.useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center)
-    map.fitBounds(bounds)
+  const [map, setMap] = useState(null);
 
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  const [markers] = useState(generateRandomMarkers);
+
+  const onLoad = useCallback(map => {
     setMap(map)
-  }, [])
+  }, []);
 
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = useCallback(map => {
     setMap(null)
   }, [])
 
@@ -39,12 +55,28 @@ function GoogleMaps() {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {/* Child components, such as markers, info windows, etc. */}
-      <></>
-    </GoogleMap>
-  ) : (
-    <></>
-  )
-}
+      {markers.map(marker => (
+        <Marker
+          key={marker.id}
+          position={marker.position}
+          onClick={() => setSelectedMarker(marker)}
+        />
+      ))}
 
-export default React.memo(GoogleMaps)
+      {selectedMarker && (
+        <InfoWindow
+          position={selectedMarker.position}
+          onCloseClick={() => setSelectedMarker(null)}
+        >
+          <div>
+            <h4>{selectedMarker.info}</h4>
+            <p>Lat: {selectedMarker.position.lat.toFixed(4)}</p>
+            <p>Lng: {selectedMarker.position.lng.toFixed(4)}</p>
+          </div>
+        </InfoWindow>
+      )}
+    </GoogleMap>
+  ) : <p>Loading Map...</p>;
+};
+
+export default GoogleMaps;
