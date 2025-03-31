@@ -7,7 +7,7 @@ function App() {
 
   return (
     <>
-      <h1>Bigfoot Maps</h1>
+      <h1>Map Bigfoot</h1>
       <div className="card">
         <h4>Mission</h4>
         <p>To document, and dissiminate the location and whereabouts of all cryptids, including aliens.
