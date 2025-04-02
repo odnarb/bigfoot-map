@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api";
 
+import BFROReports from '../../scripts/BFRO-Reports.json'
+
 const containerStyle = {
   width: "100%",
   height: '800px',
@@ -14,13 +16,19 @@ const center = {
 // Generate 10 random coordinates within the continental US
 const generateRandomMarkers = () => {
   const markers = [];
-  for (let i = 0; i < 10; i++) {
-    const lat = 24 + Math.random() * (49 - 24); // USA Latitude range
-    const lng = -125 + Math.random() * (-66 - -125); // USA Longitude range
+  for (const report of BFROReports) {
+    // if(markers.length > 50) {
+    //   return markers
+    // }
+   const { bfroReportId, name, sightingClass, timestamp, url, position, source } = report
     markers.push({
-      id: i,
-      position: { lat, lng },
-      info: `Marker #${i + 1} - Random Point`
+      id: bfroReportId,
+      position,
+      info: `${name}<br />
+        class: ${sightingClass}<br />
+        date: ${timestamp}<br />
+        source: ${source}<br />
+        url: <a targe="_blank" href="${url}">${url}</a>`
     });
   }
   return markers;
