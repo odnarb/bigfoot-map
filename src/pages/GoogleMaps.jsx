@@ -1,10 +1,7 @@
 import React, { useCallback, useState, useContext } from "react"
-import { GoogleMap, useJsApiLoader, MapContext  } from "@react-google-maps/api"
+import { GoogleMap, useJsApiLoader, Marker, InfoWindow  } from "@react-google-maps/api"
 
 import BFROReports from '../../data/BFRO/BFRO-Reports.json'
-
-import { BFROMarker } from "./components/BFROMarker"
-import { APIProvider } from "@vis.gl/react-google-maps"
 
 const containerStyle = {
   width: "100%",
@@ -19,9 +16,6 @@ const center = {
 const generateBFROMarkers = () => {
   const markers = [];
   for (const report of BFROReports) {
-    if(markers.length > 0) {
-      return markers
-    }
    const { bfroReportId, name, sightingClass, timestamp, url, position, source } = report
     markers.push({
       id: bfroReportId,
@@ -40,19 +34,14 @@ const generateBFROMarkers = () => {
 function GoogleMaps() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ["marker"]
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
   });
 
-  const map = useContext(MapContext);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
-
-  // const [selectedMarker, setSelectedMarker] = useState(null);
   const [markers] = useState(generateBFROMarkers);
 
-
   return isLoaded ? (
-    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         reuseMaps
@@ -62,13 +51,27 @@ function GoogleMaps() {
         options={{ gestureHandling: "greedy" }}
       >
         {markers.map(marker => (
-          <BFROMarker
+          <Marker
             key={marker.id}
-            marker={marker}
+            position={marker.position}
+            onClick={() => setSelectedMarker(marker)}
           />
         ))}
+
+      {selectedMarker && (
+        <InfoWindow
+          position={selectedMarker.position}
+          pixelOffset={[0, 50]}
+          onCloseClick={() => setSelectedMarker(null)}
+        >
+          <div>
+            <h4>{selectedMarker.info}</h4>
+            <p>Lat: {selectedMarker.position.lat.toFixed(4)}</p>
+            <p>Lng: {selectedMarker.position.lng.toFixed(4)}</p>
+          </div>
+        </InfoWindow>
+      )}
       </GoogleMap>
-    </APIProvider>
   ) : <p>Loading Map...</p>;
 };
 
