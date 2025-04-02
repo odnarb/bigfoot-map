@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api";
 
-import BFROReports from '../../scripts/BFRO-Reports.json'
+import BFROReports from '../../data/BFRO/BFRO-Reports.json'
 
 const containerStyle = {
   width: "100%",
