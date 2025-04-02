@@ -37,16 +37,6 @@ const generateBFROMarkers = () => {
   return markers;
 };
 
-function MapComponent() {
-  const map = useMap();
-
-  if (!map) {
-    return <div>Loading map...</div>;
-  }
-
-  return <p>Map is ready.</p>;
-}
-
 function GoogleMaps() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
