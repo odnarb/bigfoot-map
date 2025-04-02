@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext } from "react"
+import React, { useState } from "react"
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow  } from "@react-google-maps/api"
 
 import BFROReports from '../../data/BFRO/BFRO-Reports.json'
@@ -38,7 +38,6 @@ function GoogleMaps() {
   });
 
   const [selectedMarker, setSelectedMarker] = useState(null);
-
   const [markers] = useState(generateBFROMarkers);
 
   return isLoaded ? (
