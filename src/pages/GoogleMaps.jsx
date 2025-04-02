@@ -13,8 +13,7 @@ const center = {
   lng: -95.712891
 }
 
-// Generate 10 random coordinates within the continental US
-const generateRandomMarkers = () => {
+const generateBFROMarkers = () => {
   const markers = [];
   for (const report of BFROReports) {
     // if(markers.length > 50) {
@@ -45,7 +44,7 @@ function GoogleMaps() {
   const [map, setMap] = useState(null);
 
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const [markers] = useState(generateRandomMarkers);
+  const [markers] = useState(generateBFROMarkers);
 
   const onLoad = useCallback(map => {
     setMap(map)
@@ -77,9 +76,7 @@ function GoogleMaps() {
           onCloseClick={() => setSelectedMarker(null)}
         >
           <div>
-            <h4>{selectedMarker.info}</h4>
-            <p>Lat: {selectedMarker.position.lat.toFixed(4)}</p>
-            <p>Lng: {selectedMarker.position.lng.toFixed(4)}</p>
+            {selectedMarker.info}
           </div>
         </InfoWindow>
       )}
