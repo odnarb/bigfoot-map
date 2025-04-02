@@ -16,6 +16,7 @@
     "@mui/material": "^7.0.1",
     "@react-google-maps/api": "^2.20.6",
     "@vis.gl/react-google-maps": "^1.5.2",
+    "classnames": "^2.5.1",
     "fast-xml-parser": "^5.0.9",
     "openai": "^4.90.0",
     "react": "^19.0.0",
