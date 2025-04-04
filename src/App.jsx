@@ -1,18 +1,18 @@
 import { Route, Routes, BrowserRouter } from 'react-router'
 import './App.css'
-import Layout from './Layout'
 import GoogleMaps from './pages/GoogleMaps'
 import About from './pages/About'
 import Donate from './pages/Donate'
 import Report from './pages/Report'
 import NoPage from './pages/NoPage'
+import Menu from './pages/components/Menu'
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Menu />}>
             <Route index element={<GoogleMaps />} />
             <Route path="about" element={<About />} />
             <Route path="submit-report" element={<Report />} />
