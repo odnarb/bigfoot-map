@@ -1,7 +1,7 @@
 export default function About () {
     return (
         <>
-            <h1>Map Bigfoot</h1>
+            <h1>Mapping Bigfoot</h1>
             <div className="card">
                 <h4>Mission</h4>
                 <p>To document and disseminate the location and whereabouts of sasquatches. To share the attributes of these creatures, including the true nature of their capabilities in and out of this realm.</p>
