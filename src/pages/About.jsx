@@ -1,7 +1,7 @@
 export default function About () {
     return (
         <>
-            <h1>Mapping Bigfoot</h1>
+            <h1>About Mapping Bigfoot</h1>
             <div className="card">
                 <h4>Mission</h4>
                 <p>To document and disseminate the location and whereabouts of sasquatches. To share the attributes of these creatures, including the true nature of their capabilities in and out of this realm.</p>
@@ -20,7 +20,7 @@ export default function About () {
                 <p>This is my attempt to modernize the information into a real platform and database. Something that can be easily moved and maintained.</p>
 
                 <h4>Keep this Information Free</h4>
-                <p>The only way I can keep this project going is from funding from everyone. I don't have paywalls. I promise for as long as the governments deny these beings exist, it will remain free. The location of these beings must be public domain for the time being. We must know where people are encountering them.</p>
+                <p>The only way I can keep this project going is from <a target="_blank" href="https://www.gofundme.com/f/mapping-sasquatch">funding from everyone</a>. I don't have paywalls. I promise for as long as the governments deny these beings exist, it will remain free. The location of these beings must be public domain for the time being. We must know where people are encountering them.</p>
 
                 <h4>Features</h4>
                 <p>I'm open to other ideas that can add to the data bank here or types of information like visualization of DNA sequences (Dr. Melba Ketchum studies) or vocalizations (like ThinkerThunker does).
