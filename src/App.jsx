@@ -5,14 +5,14 @@ import About from './pages/About'
 import Donate from './pages/Donate'
 import Report from './pages/Report'
 import NoPage from './pages/NoPage'
-import Menu from './pages/components/Menu'
+import HiddenMenu from './pages/components/HiddenMenu'
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Menu />}>
+          <Route path="/" element={<HiddenMenu />}>
             <Route index element={<GoogleMaps />} />
             <Route path="about" element={<About />} />
             <Route path="submit-report" element={<Report />} />
