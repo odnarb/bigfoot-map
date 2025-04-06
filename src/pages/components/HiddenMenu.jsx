@@ -21,6 +21,14 @@ import {
 
 import { Link, Outlet } from 'react-router';
 
+// TODO: Probably need to create a consts file for the frontend.
+const menuItems = [
+    { text: 'Home', url: '/', icon: <HomeIcon /> },
+    { text: 'Submit Report', url: '/submit-report', icon: <ReportIcon /> },
+    { text: 'Donate', url: '/donate', icon: <VolunteerActivismIcon /> },
+    { text: 'About', url: '/about', icon: <HelpCenterIcon /> }
+]
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -46,13 +54,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ],
   }),
 );
-
-const menuItems = [
-    { text: 'Home', url: '/', icon: <HomeIcon /> },
-    { text: 'Submit Report', url: '/submit-report', icon: <ReportIcon /> },
-    { text: 'Donate', url: '/donate', icon: <VolunteerActivismIcon /> },
-    { text: 'About', url: '/about', icon: <HelpCenterIcon /> }
-]
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -149,17 +150,6 @@ export default function HiddenMenu() {
               </ListItemButton>
             </ListItem>
           ))}
-          
-          {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))} */}
         </List>
       </Drawer>
       <Main open={open} sx={{ padding: 0 }}>
