@@ -10,8 +10,7 @@ import HiddenMenu from './pages/components/HiddenMenu'
 export default function App() {
   return (
     <>
-    <GoogleMaps />
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<HiddenMenu />}>
             <Route index element={<GoogleMaps />} />
@@ -21,7 +20,7 @@ export default function App() {
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter>
     </>
   )
 }
