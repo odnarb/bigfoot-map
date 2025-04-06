@@ -162,7 +162,7 @@ export default function HiddenMenu() {
           ))} */}
         </List>
       </Drawer>
-      <Main open={open}>
+      <Main open={open} sx={{ padding: 0 }}>
         <DrawerHeader />
  
         <Outlet />
