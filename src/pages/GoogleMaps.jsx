@@ -5,7 +5,7 @@ import { Map, APIProvider } from "@vis.gl/react-google-maps"
 import BFROReports from '../../data/BFRO/BFRO-Reports.json'
 import { BFROMarker } from "./components/BFROMarker"
 
-const mapContainerStyle = {
+const mapStyle = {
   width: "100%",
   height: '100%',
 }
@@ -54,8 +54,8 @@ function GoogleMaps() {
       >
         <div id="map-container">
           <Map
-            style={mapContainerStyle}
             mapId={'e0540ff806c06586'}
+            style={mapStyle}
             reuseMaps
             defaultCenter={mapCenter}
             defaultZoom={5}
@@ -63,10 +63,7 @@ function GoogleMaps() {
             gestureHandling={"greedy"}
           >
             {markers.map(marker => (
-              <BFROMarker
-                key={marker.id}
-                marker={marker}
-              />
+              <BFROMarker key={marker.id} marker={marker} />
             ))}
           </Map>
         </div>
