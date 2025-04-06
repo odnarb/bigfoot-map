@@ -1,8 +1,6 @@
 import React, { useState } from "react"
-// import { GoogleMap, useJsApiLoader, Marker, InfoWindow  } from "@react-google-maps/api"
-
-import { GoogleMap, useJsApiLoader, InfoWindow  } from "@react-google-maps/api"
-import { Map, AdvancedMarker, APIProvider, Pin } from "@vis.gl/react-google-maps"
+import { useJsApiLoader  } from "@react-google-maps/api"
+import { Map, APIProvider } from "@vis.gl/react-google-maps"
 
 import BFROReports from '../../data/BFRO/BFRO-Reports.json'
 import { BFROMarker } from "./components/BFROMarker"
@@ -10,11 +8,6 @@ import { BFROMarker } from "./components/BFROMarker"
 const containerStyle = {
   width: "100%",
   height: '800px',
-}
-
-const mapOptions = {
-  mapId: "e0540ff806c06586",
-  gestureHandling: "greedy"
 }
 
 const mapCenter = {
@@ -31,8 +24,7 @@ const generateBFROMarkers = () => {
    if(markers.length > 10) {
     return markers
    }
-    // const reportDateTime = DateTime.fromISO(timestamp)
-    // if(reportDateTime.year === 2025) 
+
     markers.push({
       id: bfroReportId,
       position,
@@ -57,31 +49,30 @@ function GoogleMaps() {
 
   return isLoaded ? (
     <div className="advanced-marker">
-    <APIProvider
-      apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
-      libraries={['marker']}
-    >
-      <div id="map-container">
-      <Map
-        mapContainerStyle={containerStyle}
-        mapId={'e0540ff806c06586'}
-        reuseMaps
-        defaultCenter={mapCenter}
-        defaultZoom={5}
-        onLoad={(map) => map.current = map}
-        gestureHandling={"greedy"}
+      <APIProvider
+        apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+        libraries={['marker']}
       >
-        {markers.map(marker => (
-          <BFROMarker
-            key={marker.id}
-            marker={marker}
-          />
-        ))}
-
-      </Map>
-      </div>
+        <div id="map-container">
+          <Map
+            mapContainerStyle={containerStyle}
+            mapId={'e0540ff806c06586'}
+            reuseMaps
+            defaultCenter={mapCenter}
+            defaultZoom={5}
+            onLoad={(map) => map.current = map}
+            gestureHandling={"greedy"}
+          >
+            {markers.map(marker => (
+              <BFROMarker
+                key={marker.id}
+                marker={marker}
+              />
+            ))}
+          </Map>
+        </div>
       </APIProvider>
-      </div>
+    </div>
   ) : <p>Loading Map...</p>;
 };
 
