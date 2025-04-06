@@ -5,9 +5,9 @@ import { Map, APIProvider } from "@vis.gl/react-google-maps"
 import BFROReports from '../../data/BFRO/BFRO-Reports.json'
 import { BFROMarker } from "./components/BFROMarker"
 
-const containerStyle = {
+const mapContainerStyle = {
   width: "100%",
-  height: '800px',
+  height: '100%',
 }
 
 const mapCenter = {
@@ -48,14 +48,13 @@ function GoogleMaps() {
   const [markers] = useState(generateBFROMarkers);
 
   return isLoaded ? (
-    <div className="advanced-marker">
       <APIProvider
         apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
         libraries={['marker']}
       >
         <div id="map-container">
           <Map
-            mapContainerStyle={containerStyle}
+            style={mapContainerStyle}
             mapId={'e0540ff806c06586'}
             reuseMaps
             defaultCenter={mapCenter}
@@ -72,7 +71,6 @@ function GoogleMaps() {
           </Map>
         </div>
       </APIProvider>
-    </div>
   ) : <p>Loading Map...</p>;
 };
 
