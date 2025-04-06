@@ -74,8 +74,6 @@
   }
   
   .advanced-marker .bfro-marker.hovered {
-    z-index: 2;
-  
     transform: translateY(-9px);
   }
   .advanced-marker .bfro-marker.hovered .custom-pin {
