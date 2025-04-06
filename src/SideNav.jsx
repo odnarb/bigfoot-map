@@ -44,31 +44,16 @@ export default function SideNav() {
     <AppBar position="static">
       <Container maxWidth="lg" disableGutters="true">
         <Toolbar>
+            <Typography variant="h6" sx={{flexGrow: 1, fontWeight: 700}}>BigFoot Maps</Typography>
 
-            <Typography variant="h6" sx={{flexGrow: 1, fontWeight: 700}}>
-              BigFoot Maps
-            </Typography>
-
-            <Box component="div" sx={{
-              display: {
-                xs: 'none',
-                sm: 'block',
-              }
-            }}>
-            </Box>
+            <Box component="div" sx={{ display: { xs: 'none', sm: 'block' }}}></Box>
 
             <IconButton 
               edge="start" 
               color="inherit" 
               aria-label="open drawer" 
               onClick={toggleDrawer(true)}
-              sx={{ 
-                mr: 2,
-                display: {
-                  xs: 'block',
-                  sm: 'none',
-                }
-              }}
+              sx={{ mr: 2, display: { xs: 'block', sm: 'none' } }}
             >
               <MenuIcon />
             </IconButton>
@@ -85,12 +70,7 @@ export default function SideNav() {
               onOpen={toggleDrawer(true)}
             >
                 {/* The inside of the drawer */}
-                <Box sx={{
-                  p: 2,
-                  height: 1,
-                  backgroundColor: "#dbc8ff",
-                }}>
-
+                <Box sx={{ p: 2, height: 1, backgroundColor: "#dbc8ff" }}>
                   {/* 
                   when clicking the icon it calls the function toggleDrawer 
                   and closes the drawer by setting the variable open to false
