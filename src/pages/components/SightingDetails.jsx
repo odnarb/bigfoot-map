@@ -3,7 +3,7 @@ import React from 'react';
 import '../../assets/sighting-details.css';
 import { Typography } from '@mui/material';
 
-export function SightingDetails ({ marker }) {
+export function SightingDetails({ marker }) {
   return (
     <div className="details-container">
       <div className="listing-content">

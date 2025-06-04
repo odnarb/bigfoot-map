@@ -21,9 +21,9 @@ const generateBFROMarkers = () => {
    const { bfroReportId, name, sightingClass, timestamp, url, position, source } = report
 
    //TODO: this is only for testing..
-   if(markers.length > 10) {
-    return markers
-   }
+  //  if(markers.length > 10) {
+  //   return markers
+  //  }
 
     markers.push({
       id: bfroReportId,
@@ -48,6 +48,7 @@ function GoogleMaps() {
   const [markers] = useState(generateBFROMarkers);
 
   return isLoaded ? (
+    <div className="advanced-marker">
       <APIProvider
         apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
         libraries={['marker']}
@@ -68,6 +69,7 @@ function GoogleMaps() {
           </Map>
         </div>
       </APIProvider>
+      </div>
   ) : <p>Loading Map...</p>;
 };
 
