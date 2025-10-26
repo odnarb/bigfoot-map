@@ -1,18 +1,16 @@
-import React, { useState}  from 'react';
+import React, { useState } from 'react';
 import { AdvancedMarker } from '@vis.gl/react-google-maps';
 import classNames from 'classnames';
 
 import '../../assets/bfro-marker.css';
-import bfroIcon from '../../assets/bfro-icon.jpg';
 
 import { GiFootprint as BigfootIcon } from "react-icons/gi";
 import { SightingDetails } from './SightingDetails';
 
-export function BFROMarker ({ marker }) {
-  const [clicked, setClicked] = useState(false);
+export function BFMarker({ marker, isSelected, onSelect }) {
   const [hovered, setHovered] = useState(false);
 
-  const renderBFROPin = () => {
+  const renderBFPin = () => {
     return (
       <>
         <div className="custom-pin">
@@ -23,7 +21,7 @@ export function BFROMarker ({ marker }) {
           <div className="image-container">
             <SightingDetails
               marker={marker}
-              isExtended={clicked}
+              isExtended={isSelected}
             />
             <span className="icon">
               <BigfootIcon color="#b88b2e" size="2em" />
@@ -44,9 +42,9 @@ export function BFROMarker ({ marker }) {
         title={marker.title}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className={classNames('bfro-marker', {clicked, hovered})}
-        onClick={() => setClicked(!clicked)}>
-            {renderBFROPin()}
+        className={classNames('bfro-marker', { clicked: isSelected, hovered })}
+        onClick={onSelect}>
+        {renderBFPin()}
       </AdvancedMarker>
     </>
   );

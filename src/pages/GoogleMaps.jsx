@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-import { useJsApiLoader  } from "@react-google-maps/api"
+import { useJsApiLoader } from "@react-google-maps/api"
 import { Map, APIProvider } from "@vis.gl/react-google-maps"
 
 import BFROReports from '../../data/BFRO/BFRO-Reports.json'
-import { BFROMarker } from "./components/BFROMarker"
+import { BFMarker } from "./components/BFMarker"
 
 const mapStyle = {
   width: "100%",
@@ -18,12 +18,12 @@ const mapCenter = {
 const generateBFROMarkers = () => {
   const markers = [];
   for (const report of BFROReports) {
-   const { bfroReportId, name, sightingClass, timestamp, url, position, source } = report
+    const { bfroReportId, name, sightingClass, timestamp, url, position, source } = report
 
-   //TODO: this is only for testing..
-  //  if(markers.length > 10) {
-  //   return markers
-  //  }
+    //TODO: this is only for testing..
+    if (markers.length > 100) {
+      return markers
+    }
 
     markers.push({
       id: bfroReportId,
@@ -46,6 +46,11 @@ function GoogleMaps() {
   });
 
   const [markers] = useState(generateBFROMarkers);
+  const [selectedMarkerId, setSelectedMarkerId] = useState(null);
+
+  const handleMarkerClick = (id) => {
+    setSelectedMarkerId(prev => (prev === id ? null : id));
+  };
 
   return isLoaded ? (
     <div className="advanced-marker">
@@ -64,12 +69,17 @@ function GoogleMaps() {
             gestureHandling={"greedy"}
           >
             {markers.map(marker => (
-              <BFROMarker key={marker.id} marker={marker} />
+              <BFMarker
+                key={marker.id}
+                marker={marker}
+                isSelected={selectedMarkerId === marker.id}
+                onSelect={() => handleMarkerClick(marker.id)}
+              />
             ))}
           </Map>
         </div>
       </APIProvider>
-      </div>
+    </div>
   ) : <p>Loading Map...</p>;
 };
 
