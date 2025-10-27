@@ -52,8 +52,7 @@ function GoogleMaps() {
     []
   );
 
-  const toggleState = (abbrev) =>
-    setActiveState((prev) => (prev === abbrev ? null : abbrev));
+  const toggleState = (abbrev) => setActiveState(abbrev);
 
   return isLoaded ? (
     <div className="advanced-marker">
