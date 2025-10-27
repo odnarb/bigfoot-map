@@ -15,6 +15,7 @@
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
     "@react-google-maps/api": "^2.20.6",
+    "@turf/turf": "^7.2.0",
     "@vis.gl/react-google-maps": "^1.5.2",
     "classnames": "^2.5.1",
     "fast-xml-parser": "^5.0.9",

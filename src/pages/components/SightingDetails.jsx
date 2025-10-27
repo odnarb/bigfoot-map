@@ -1,6 +1,5 @@
 import React from 'react';
 
-import '../../assets/sighting-details.css';
 import { Typography } from '@mui/material';
 
 export function SightingDetails({ marker }) {
