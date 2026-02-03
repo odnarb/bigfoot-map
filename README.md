@@ -1,2 +1,2 @@
-# bigfoot-map
-The mapping and cataloguing of all cryptid sightings data feeds. 
+# mapping-sasquatch
+The mapping and cataloguing of all sasquatch sightings data feeds. 

@@ -1,7 +1,7 @@
 export default function About() {
     return (
         <>
-            <h1>About Mapping Bigfoot</h1>
+            <h1>About Mapping Sasquatch</h1>
             <div className="card">
                 <h4>Mission</h4>
                 <p>
@@ -36,7 +36,7 @@ export default function About() {
                 </p>
 
                 <p>
-                    Mapping Bigfoot is an open-source project designed to centralize historical and
+                    Mapping Sasquatch is an open-source project designed to centralize historical and
                     modern encounter data into a single, durable platform. The goal is to create a
                     level playing field where all aspects of encounters can be shared openly, without
                     gatekeeping or hidden narratives.
