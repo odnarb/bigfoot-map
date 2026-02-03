@@ -62,6 +62,7 @@ function GoogleMaps() {
       >
         <div id="map-container">
           <Map
+            mapTypeControlOptions={{ style: google.maps.MapTypeControlStyle.DROPDOWN_MENU }}
             mapId={'e0540ff806c06586'}
             style={mapStyle}
             reuseMaps
