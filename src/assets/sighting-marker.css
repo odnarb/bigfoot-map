@@ -1,166 +1,63 @@
-.advanced-marker .sighting {
-  cursor: pointer;
-  position: relative;
-  transform: translateY(-5px);
-  transition: all 0.2s ease-in-out;
-  z-index: -1;
+.bf-bubble {
+  position: absolute;
+  transform: translate(-45%, calc(-100% - 14px));
+  /* above marker */
+  min-width: 260px;
+  max-width: 440px;
+  background: rgba(20, 20, 20, 0.95);
+  color: white;
+  border-radius: 12px;
+  padding: 26px 12px 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-.advanced-marker .sighting .tip {
+.bf-bubble-close {
   position: absolute;
-  bottom: 0;
+  top: 3px;
+  right: 3px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.bf-bubble-close:hover {
+  opacity: 1;
+}
+
+.bf-bubble-tip {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
   width: 0;
   height: 0;
-  border: 8px solid var(--marker-green-dark);
-  border-radius: 0;
-  border-bottom-right-radius: 5px;
-  z-index: -1;
-  left: 50%;
-  transform: translateY(22%) translateX(-50%) rotate(45deg);
-  transition: all 0.2s ease-in-out;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid rgba(20, 20, 20, 0.95);
 }
 
-.advanced-marker .custom-pin {
-  position: relative;
-  height: 34px;
-  width: fit-content;
-  max-width: 34px;
-  padding: 4px;
-  background-color: var(--marker-green-dark);
-  border-radius: 50%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  transform-origin: bottom;
-  transition:
-    max-width 0.2s ease-in-out,
-    height 0.2s ease-in-out,
-    border-radius 0.2s ease-in-out;
-
-  z-index: 999;
+.bf-marker-icon {
+  display: block;
+  scale: 1;
+  transform-origin: center;
+  transition: scale 160ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 140ms ease-out;
+  will-change: scale;
+  pointer-events: auto;
 }
 
-.advanced-marker .custom-pin .close-button {
-  display: none;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 8px;
-  border: none;
-  box-shadow: none;
-  background: none;
-  color: var(--marker-green-dark);
-  cursor: pointer;
+.bf-marker-icon:hover {
+  scale: 1.25;
 }
 
-.advanced-marker .custom-pin .image-container {
-  width: 100%;
-  height: 100%;
-  max-width: 285px;
-  background-position: 50% 50%;
-  background-size: cover;
-  border-radius: inherit;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.2s ease-in-out;
-  z-index: -1;
+.bf-marker-icon.selected {
+  scale: 1.5;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
 }
 
-.advanced-marker .custom-pin .image-container .icon {
-  position: absolute;
-  transform: scale(1);
-  transition:
-    transform 0.2s ease-in-out;
-  z-index: 999;
+.bf-marker-icon.selected:hover {
+  scale: 1.5;
 }
 
-.advanced-marker .sighting.hovered {
-  transform: translateY(-9px);
-}
-
-.advanced-marker .sighting.hovered .custom-pin {
-  max-width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-
-.advanced-marker .sighting.hovered .custom-pin .image-container {
-  opacity: 1;
-  border-radius: inherit;
-}
-
-.advanced-marker .sighting.hovered .custom-pin .image-container .icon {
-  transform: scale(2)
-}
-
-.advanced-marker .sighting.hovered .tip {
-  transform: translateY(23%) translateX(-50%) rotate(45deg) scale(1.4);
-}
-
-.advanced-marker .sighting.clicked {
-  z-index: -1;
-
-  transform: translateY(-9px);
-}
-
-.advanced-marker .sighting.clicked .custom-pin {
-  background-color: var(--marker-green-dark);
-  border-radius: 0;
-  width: fit-content;
-  max-width: 650px;
-  height: 317px;
-}
-
-.advanced-marker .sighting.clicked .custom-pin .image-container {
-  border-radius: inherit;
-}
-
-.advanced-marker .sighting.clicked .custom-pin .image-container .icon {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.advanced-marker .sighting.clicked .custom-pin .details-container {
-  max-width: 380px;
-  opacity: 1;
-  visibility: visible;
-
-  animation: slideInFadeIn 0.7s ease-in-out;
-}
-
-.advanced-marker .sighting.clicked .custom-pin .details-container .close-button {
-  display: flex;
-}
-
-.advanced-marker .sighting.clicked .custom-pin .details-container .close-button span {
-  font-size: 24px;
-}
-
-.advanced-marker .sighting.clicked .tip {
-  transform: translateY(23%) translateX(-50%) rotate(45deg) scale(1.4);
-}
-
-@keyframes slideInFadeIn {
-  0% {
-    max-width: 0;
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  75% {
-    max-width: 380px;
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  100% {
-    max-width: 380px;
-    opacity: 1;
-    visibility: visible;
-  }
-}
+/* keep stable */
