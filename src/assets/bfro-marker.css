@@ -1,4 +1,4 @@
-.advanced-marker .bfro-marker {
+.advanced-marker .sighting {
   cursor: pointer;
   position: relative;
   transform: translateY(-5px);
@@ -6,12 +6,12 @@
   z-index: -1;
 }
 
-.advanced-marker .bfro-marker .tip {
+.advanced-marker .sighting .tip {
   position: absolute;
   bottom: 0;
   width: 0;
   height: 0;
-  border: 8px solid var(--bfro-green-dark);
+  border: 8px solid var(--marker-green-dark);
   border-radius: 0;
   border-bottom-right-radius: 5px;
   z-index: -1;
@@ -26,7 +26,7 @@
   width: fit-content;
   max-width: 34px;
   padding: 4px;
-  background-color: var(--bfro-green-dark);
+  background-color: var(--marker-green-dark);
   border-radius: 50%;
 
   display: flex;
@@ -51,7 +51,7 @@
   border: none;
   box-shadow: none;
   background: none;
-  color: var(--bfro-green-dark);
+  color: var(--marker-green-dark);
   cursor: pointer;
 }
 
@@ -79,53 +79,53 @@
   z-index: 999;
 }
 
-.advanced-marker .bfro-marker.hovered {
+.advanced-marker .sighting.hovered {
   transform: translateY(-9px);
 }
 
-.advanced-marker .bfro-marker.hovered .custom-pin {
+.advanced-marker .sighting.hovered .custom-pin {
   max-width: 80px;
   height: 80px;
   border-radius: 50%;
 }
 
-.advanced-marker .bfro-marker.hovered .custom-pin .image-container {
+.advanced-marker .sighting.hovered .custom-pin .image-container {
   opacity: 1;
   border-radius: inherit;
 }
 
-.advanced-marker .bfro-marker.hovered .custom-pin .image-container .icon {
+.advanced-marker .sighting.hovered .custom-pin .image-container .icon {
   transform: scale(2)
 }
 
-.advanced-marker .bfro-marker.hovered .tip {
+.advanced-marker .sighting.hovered .tip {
   transform: translateY(23%) translateX(-50%) rotate(45deg) scale(1.4);
 }
 
-.advanced-marker .bfro-marker.clicked {
+.advanced-marker .sighting.clicked {
   z-index: -1;
 
   transform: translateY(-9px);
 }
 
-.advanced-marker .bfro-marker.clicked .custom-pin {
-  background-color: var(--bfro-green-dark);
+.advanced-marker .sighting.clicked .custom-pin {
+  background-color: var(--marker-green-dark);
   border-radius: 0;
   width: fit-content;
   max-width: 650px;
   height: 317px;
 }
 
-.advanced-marker .bfro-marker.clicked .custom-pin .image-container {
+.advanced-marker .sighting.clicked .custom-pin .image-container {
   border-radius: inherit;
 }
 
-.advanced-marker .bfro-marker.clicked .custom-pin .image-container .icon {
+.advanced-marker .sighting.clicked .custom-pin .image-container .icon {
   opacity: 0;
   visibility: hidden;
 }
 
-.advanced-marker .bfro-marker.clicked .custom-pin .details-container {
+.advanced-marker .sighting.clicked .custom-pin .details-container {
   max-width: 380px;
   opacity: 1;
   visibility: visible;
@@ -133,15 +133,15 @@
   animation: slideInFadeIn 0.7s ease-in-out;
 }
 
-.advanced-marker .bfro-marker.clicked .custom-pin .details-container .close-button {
+.advanced-marker .sighting.clicked .custom-pin .details-container .close-button {
   display: flex;
 }
 
-.advanced-marker .bfro-marker.clicked .custom-pin .details-container .close-button span {
+.advanced-marker .sighting.clicked .custom-pin .details-container .close-button span {
   font-size: 24px;
 }
 
-.advanced-marker .bfro-marker.clicked .tip {
+.advanced-marker .sighting.clicked .tip {
   transform: translateY(23%) translateX(-50%) rotate(45deg) scale(1.4);
 }
 

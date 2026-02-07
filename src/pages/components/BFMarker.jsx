@@ -42,7 +42,7 @@ export function BFMarker({ marker, isSelected, onSelect }) {
         title={marker.title}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className={classNames('bfro-marker', { clicked: isSelected, hovered })}
+        className={classNames('sighting', { clicked: isSelected, hovered })}
         onClick={onSelect}>
         {renderBFPin()}
       </AdvancedMarker>
