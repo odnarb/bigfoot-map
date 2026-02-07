@@ -10,8 +10,8 @@ import StatePolygonsLayer from "./components/StatePolygonsLayer";
 
 const mapStyle = {
   width: "100%",
-  height: '800px',
-}
+  height: "100%",
+};
 
 const mapCenter = {
   lat: 37.09024,
