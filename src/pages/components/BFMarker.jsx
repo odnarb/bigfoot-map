@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AdvancedMarker } from '@vis.gl/react-google-maps';
 import classNames from 'classnames';
 
-import '../../assets/bfro-marker.css';
+import '../../assets/sighting-marker.css';
 
 import { GiFootprint as BigfootIcon } from "react-icons/gi";
 import { SightingDetails } from './SightingDetails';
