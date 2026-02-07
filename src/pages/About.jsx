@@ -2,7 +2,7 @@ export default function About() {
     return (
         <>
             <h1>About Mapping Sasquatch</h1>
-            <div className="card">
+            <div className="card" style={{ textAlign: "left" }}>
                 <h4>Mission</h4>
                 <p>
                     To document and openly share the locations, patterns, and behaviors associated
@@ -93,7 +93,7 @@ export default function About() {
                     professional experience building and scaling web platforms. I built this platform because the community deserves
                     better tools to preserve and understand this information.
                 </p>
-            </div>
+            </div >
         </>
     )
 }
