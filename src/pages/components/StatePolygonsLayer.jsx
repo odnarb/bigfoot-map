@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useMap } from "@vis.gl/react-google-maps"
 
 /** Imperative polygon layer for vis.gl: creates google.maps.Polygon for each state. */
-export default function StatePolygonsLayer({ StatePolygonsMap, activeState, onToggleState }) {
+export default function StatePolygonsLayer({ StatePolygonsMap, activeState, onToggleState, setSelectedMarkerId }) {
     const map = useMap(); // current Google Map instance from vis.gl
     const [polysByState, setPolysByState] = useState({}); // abbrev -> google.maps.Polygon[]
 
@@ -34,7 +34,10 @@ export default function StatePolygonsLayer({ StatePolygonsMap, activeState, onTo
                     map,
                 });
                 // click toggles activeState
-                poly.addListener("click", () => onToggleState(abbrev));
+                poly.addListener("click", () => {
+                    onToggleState(abbrev)
+                    setSelectedMarkerId(null)
+                });
                 return poly;
             });
             created[abbrev] = polyObjs;

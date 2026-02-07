@@ -69,10 +69,11 @@ function GoogleMaps() {
             defaultCenter={mapCenter}
             defaultZoom={5}
             onLoad={(map) => map.current = map}
+            onClick={() => setSelectedMarkerId(null)}
             gestureHandling={"greedy"}
           >
 
-            <StatePolygonsLayer StatePolygonsMap={StatePolygonsMap} activeState={activeState} onToggleState={toggleState} />
+            <StatePolygonsLayer StatePolygonsMap={StatePolygonsMap} activeState={activeState} onToggleState={toggleState} setSelectedMarkerId={setSelectedMarkerId} />
 
             {markers.map(marker => (
               <BFMarker
