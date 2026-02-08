@@ -1,7 +1,7 @@
 import fs from "fs"
 
-const input = "../data/BFRO/BFRO-Reports-with-states.json";
-const output = "../data/BFRO/BFRO-reports-states-map.json";
+const input = "../data/BFRO-Reports-with-states.json";
+const output = "../data/BFRO-reports-states-map.json";
 
 const data = JSON.parse(fs.readFileSync(input, "utf8"));
 const grouped = {};

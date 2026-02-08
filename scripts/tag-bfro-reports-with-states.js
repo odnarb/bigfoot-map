@@ -5,9 +5,9 @@ import * as turf from '@turf/turf';
 /**
  * Adjust these paths as needed
  */
-const REPORTS_PATH = path.resolve('../data/BFRO/BFRO-Reports.json');
+const REPORTS_PATH = path.resolve('../data/BFRO-Reports.json');
 const STATES_PATH = path.resolve('../data/us-state-boundaries.json');
-const OUTPUT_PATH = path.resolve('../data/BFRO/BFRO-Reports-with-states.json');
+const OUTPUT_PATH = path.resolve('../data/BFRO-Reports-with-states.json');
 
 /**
  * Load JSON helpers

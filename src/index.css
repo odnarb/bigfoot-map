@@ -34,13 +34,13 @@
 
 
 :root {
-  /* bfro */
-  --bfro-yellow: #b88b2e;
-  --bfro-yellow-light: #ffe29c;
-  --bfro-green-dark: #2d5041;
-  --bfro-green-light: #618d7e;
-  --bfro-01-grey-mid: #f4f4f4;
-  --bfro-grey-main: #404040;
+  /* marker */
+  --marker-yellow: #b88b2e;
+  --marker-yellow-light: #ffe29c;
+  --marker-green-dark: #2d5041;
+  --marker-green-light: #618d7e;
+  --marker-01-grey-mid: #f4f4f4;
+  --marker-grey-main: #404040;
   /* basic colors */
   --background-color-primary: #fff;
   /* fonts */

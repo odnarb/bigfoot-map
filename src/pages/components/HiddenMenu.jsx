@@ -2,80 +2,63 @@ import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 
 import {
-    Box, Toolbar,
-    AppBar as MuiAppBar,
-    List, CssBaseline, Typography, Divider, IconButton,
-    ListItem, ListItemButton, ListItemText, ListItemIcon,
-    Drawer
+  Box, Toolbar,
+  AppBar as MuiAppBar,
+  List, CssBaseline, Typography, Divider, IconButton,
+  ListItem, ListItemButton, ListItemText, ListItemIcon,
+  Drawer
 } from '@mui/material';
 
 import {
-    ChevronLeft as ChevronLeftIcon,
-    ChevronRight as ChevronRightIcon,
-    Menu as MenuIcon,
-    Report as ReportIcon,
-    VolunteerActivism as VolunteerActivismIcon,
-    Home as HomeIcon,
-    HelpCenter as HelpCenterIcon
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Menu as MenuIcon,
+  Report as ReportIcon,
+  VolunteerActivism as VolunteerActivismIcon,
+  Home as HomeIcon,
+  HelpCenter as HelpCenterIcon
 } from '@mui/icons-material';
 
 import { Link, Outlet } from 'react-router';
 
 // TODO: Probably need to create a consts file for the frontend.
 const menuItems = [
-    { text: 'Home', url: '/', icon: <HomeIcon /> },
-    { text: 'Submit Report', url: '/submit-report', icon: <ReportIcon /> },
-    { text: 'Donate', url: '/donate', icon: <VolunteerActivismIcon /> },
-    { text: 'About', url: '/about', icon: <HelpCenterIcon /> }
+  { text: 'Home', url: '/', icon: <HomeIcon /> },
+  { text: 'Submit Report', url: '/submit-report', icon: <ReportIcon /> },
+  { text: 'Donate', url: '/donate', icon: <VolunteerActivismIcon /> },
+  { text: 'About', url: '/about', icon: <HelpCenterIcon /> }
 ]
 
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme }) => ({
+  ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: `-${drawerWidth}px`,
-    variants: [
-      {
-        props: ({ open }) => open,
-        style: {
-          transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          marginLeft: 0,
-        },
-      },
-    ],
-  }),
+    marginLeft: open ? 0 : `-${drawerWidth}px`,
+    padding: 0,
+  })
 );
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: `${drawerWidth}px`,
-        transition: theme.transitions.create(['margin', 'width'], {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      },
-    },
-  ],
-}));
+const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: `${drawerWidth}px`,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    }),
+  })
+);
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -117,7 +100,7 @@ export default function HiddenMenu() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">Mapping Bigfoot</Typography>
+          <Typography variant="h6" noWrap component="div">Mapping Sasquatch</Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -140,23 +123,26 @@ export default function HiddenMenu() {
         </DrawerHeader>
         <Divider />
         <List>
-        {menuItems.map((item, index) => (
-          <ListItem component={Link} key={index} disablePadding sx={{ display: 'block' }} to={item.url}>
-            <ListItemButton sx={[{minHeight: 48, px: 2.5}, open ? {justifyContent: 'initial'} : {justifyContent: 'center'}]}>
-              <ListItemIcon sx={[{minWidth: 0, justifyContent: 'center'}, open ? {mr: 3} : { mr: 'auto'}]}>
+          {menuItems.map((item, index) => (
+            <ListItem component={Link} key={index} disablePadding sx={{ display: 'block' }} to={item.url}>
+              <ListItemButton sx={[{ minHeight: 48, px: 2.5 }, open ? { justifyContent: 'initial' } : { justifyContent: 'center' }]}>
+                <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center' }, open ? { mr: 3 } : { mr: 'auto' }]}>
                   {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.text} sx={[ open? {opacity: 1} : { opacity: 0} ]} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+                </ListItemIcon>
+                <ListItemText primary={item.text} sx={[open ? { opacity: 1 } : { opacity: 0 }]} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </Drawer>
-      <Main open={open} sx={{ padding: 0 }}>
-        <DrawerHeader />
- 
-        <Outlet />
 
+      <Main open={open} sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <DrawerHeader />
+
+        {/* This Box becomes the "page body" area */}
+        <Box sx={{ flex: 1, minHeight: 0 }}>
+          <Outlet />
+        </Box>
       </Main>
     </Box>
   );

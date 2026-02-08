@@ -2,16 +2,16 @@ import React, { useMemo, useState, useCallback } from "react";
 import { useJsApiLoader } from "@react-google-maps/api"
 import { Map, APIProvider } from "@vis.gl/react-google-maps"
 
-import BFROReportsByState from '../../data/BFRO/BFRO-reports-states-map.json'
+import BFROReportsByState from '../../data/BFRO-reports-states-map.json'
 import StatePolygonsMap from '../../data/US-States-Polygons-Map.json'
 
-import { BFMarker } from "./components/BFMarker"
 import StatePolygonsLayer from "./components/StatePolygonsLayer";
+import FootMarker from "./components/FootMarker";
 
 const mapStyle = {
   width: "100%",
-  height: '800px',
-}
+  height: "100%",
+};
 
 const mapCenter = {
   lat: 37.09024,
@@ -69,17 +69,19 @@ function GoogleMaps() {
             defaultCenter={mapCenter}
             defaultZoom={5}
             onLoad={(map) => map.current = map}
+            onClick={() => setSelectedMarkerId(null)}
             gestureHandling={"greedy"}
           >
 
-            <StatePolygonsLayer StatePolygonsMap={StatePolygonsMap} activeState={activeState} onToggleState={toggleState} />
+            <StatePolygonsLayer StatePolygonsMap={StatePolygonsMap} activeState={activeState} onToggleState={toggleState} setSelectedMarkerId={setSelectedMarkerId} />
 
             {markers.map(marker => (
-              <BFMarker
+              <FootMarker
                 key={marker.id}
                 marker={marker}
                 isSelected={selectedMarkerId === marker.id}
                 onSelect={() => handleMarkerClick(marker.id)}
+                onClose={() => setSelectedMarkerId(null)}
               />
             ))}
           </Map>
