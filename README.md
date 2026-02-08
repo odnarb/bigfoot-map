@@ -30,8 +30,11 @@ This project is early-stage and research-oriented.
 - Improved submission & follow-up flow
 - Optional cloud backend (later)
 
-## Installation Requires node.js
-I suggest you look to nvm for installing node: https://github.com/nvm-sh/nvm
+---
+
+## Requirements
+- **Node.js** (recommended via nvm)  
+  https://github.com/nvm-sh/nvm
 
 ---
 
@@ -56,22 +59,29 @@ You must create a Google Maps API key and enable the Maps API for the app to run
 ---
 
 ### 2) Configure environment variables
-Create a file named **`.env.local`** in the project root with the api key:
+Create a file named **`.env.local`** in the project root:
 
 ```env
 VITE_GOOGLE_MAPS_API_KEY=YOUR_API_KEY_HERE
 ```
 
-⚠️ Do not commit .env.local to the repository.
-It is already included in .gitignore.
+⚠️ Do **not** commit `.env.local` to the repository.  
+It is already included in `.gitignore`.
+
+---
 
 ## Common issues
+- **Blank map or gray grid**  
+  → API key missing or invalid
 
-Blank map or gray grid → API key missing or invalid
+- **Billing-related errors**  
+  → Billing must be enabled on the Google Cloud project  
+  (required by Google, even for free-tier usage)
 
-Billing-related errors → Billing must be enabled on the Google Cloud project (required by Google, even for free-tier usage)
+- **`process.env` is undefined**  
+  → Make sure the variable name is prefixed with `VITE_`
 
-process.env is undefined → Make sure the variable name is prefixed with VITE_
+---
 
 ## Running locally
 ```bash
@@ -82,23 +92,39 @@ npm install
 npm run dev
 ```
 
-Then open http://localhost:5173
- (or whatever port).
+Then open the local URL shown in the terminal  
+(usually `http://localhost:5173`).
+
+---
 
 ## Data
+- No private submissions are stored in this repository
+- Current data is public, test, or research-derived
 
-No private submissions are stored here
+---
 
 ## Contributing
+Contributions are welcome, even at this early stage.
 
-Issues, ideas, and PRs welcome.
-This is a research and tooling project, not a belief system.
+For now, the process is intentionally simple:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Open a Pull Request against the `dev` branch
+
+Ideas, fixes, data improvements, and documentation updates are all appreciated.
+
+This is a research and tooling project — constructive discussion is encouraged.
+
+---
 
 ## Disclaimer
-
-This project documents reports and patterns.
+This project documents reported encounters and observed patterns.  
 Interpretation is left to the reader.
 
+---
+
 ## Credits
-BFRO, KMZ data
-Bobbie Short, other sightings (yet to be utilized)
+- BFRO (data references)
+- KMZ source data
+- Bobbie Short and other public sightings (to be integrated)
