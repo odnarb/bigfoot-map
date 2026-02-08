@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "mkdir -p data && tar xvf data.tar -C data/ && vite",
+    "dev": "mkdir data && tar xvf data.tar -C data/ && vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
