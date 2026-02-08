@@ -48,7 +48,7 @@ export default function Donate() {
 
                     <Typography variant="caption">
                         <Link
-                            href="https://github.com/odnarb/bigfoot-map"
+                            href="https://github.com/odnarb/mapping-sasquatch"
                             target="_blank"
                             rel="noopener noreferrer"
                         >

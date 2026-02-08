@@ -30,6 +30,9 @@ This project is early-stage and research-oriented.
 - Improved submission & follow-up flow
 - Optional cloud backend (later)
 
+## Installation Requires node.js
+I suggest you look to nvm for installing node: https://github.com/nvm-sh/nvm
+
 ---
 
 ## Google Maps Setup (Required)
@@ -53,7 +56,7 @@ You must create a Google Maps API key and enable the Maps API for the app to run
 ---
 
 ### 2) Configure environment variables
-Create a file named **`.env.local`** in the project root:
+Create a file named **`.env.local`** in the project root with the api key:
 
 ```env
 VITE_GOOGLE_MAPS_API_KEY=YOUR_API_KEY_HERE
@@ -70,13 +73,11 @@ Billing-related errors → Billing must be enabled on the Google Cloud project (
 
 process.env is undefined → Make sure the variable name is prefixed with VITE_
 
-## Requires node.js
-I suggest you look to nvm for installing node: https://github.com/nvm-sh/nvm
-
 ## Running locally
 ```bash
-git clone https://github.com/odnarb/mappingsasquatch
-cd mappingsasquatch
+git clone https://github.com/odnarb/mapping-sasquatch
+cd mapping-sasquatch
+tar xvf data.tar
 npm install
 npm run dev
 ```
@@ -100,4 +101,4 @@ Interpretation is left to the reader.
 
 ## Credits
 BFRO, KMZ data
-Bobbie Short
+Bobbie Short, other sightings (yet to be utilized)
