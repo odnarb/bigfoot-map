@@ -2,7 +2,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import { useJsApiLoader } from "@react-google-maps/api"
 import { Map, APIProvider } from "@vis.gl/react-google-maps"
 
-import BFROReportsByState from '../../data/BFRO/BFRO-reports-states-map.json'
+import BFROReportsByState from '../../data/BFRO-reports-states-map.json'
 import StatePolygonsMap from '../../data/US-States-Polygons-Map.json'
 
 import StatePolygonsLayer from "./components/StatePolygonsLayer";
