@@ -27,12 +27,10 @@ function GoogleMaps() {
   const [activeState, setActiveState] = useState(null);
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
 
-  const allStates = useMemo(() => Object.keys(StatePolygonsMap).sort(), []);
-
   const markers = useMemo(() => {
     if (!activeState) return [];
     const reports = BFROReportsByState[activeState] || [];
-    return reports.slice(0, 100).map((r) => {
+    return reports.map((r) => {
       const { bfroReportId, name, sightingClass, timestamp, url, position, source } = r;
       return {
         id: bfroReportId,
@@ -71,6 +69,7 @@ function GoogleMaps() {
             onLoad={(map) => map.current = map}
             onClick={() => setSelectedMarkerId(null)}
             gestureHandling={"greedy"}
+            lazy={true}
           >
 
             <StatePolygonsLayer StatePolygonsMap={StatePolygonsMap} activeState={activeState} onToggleState={toggleState} setSelectedMarkerId={setSelectedMarkerId} />
