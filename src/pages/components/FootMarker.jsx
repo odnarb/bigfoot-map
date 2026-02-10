@@ -3,6 +3,7 @@ import { GiFootprint } from "react-icons/gi";
 import { IoVideocamSharp, IoVolumeHigh, IoCamera, IoEye } from "react-icons/io5";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import { SightingDetails } from "./SightingDetails";
+import BFSilohuette from "../../assets/bf-silohuette.svg?react";
 
 import '../../assets/sighting-marker.css';
 
@@ -17,20 +18,20 @@ export default function FootMarker({ marker, isSelected, onSelect, onClose }) {
       zIndex={isSelected ? 999 : 1}
       title={marker.title ?? "Report"}
     >
-      <div className={`bf-marker-wrap ${isSelected ? "selected" : ""}`}>
+      <div className={`bf-marker-icon ${isSelected ? "selected" : ""}`}>
         {marker.type === "video" && <IoVideocamSharp size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
         {marker.type === "audio" && <IoVolumeHigh size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
         {marker.type === "photo" && <IoCamera size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
         {marker.type === "sighting" && <IoEye size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
         {marker.type === "footprint" && <GiFootprint size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
-        {!marker.type && (<img
-          src={"/src/assets/bf-silohuette.png"}
+        {(!marker.type || marker.type === "") && (<BFSilohuette
           alt=""
           draggable={false}
+          className="bf-icon"
           style={{
-            width: 16,
+            color: marker.legacy ? "#3a3a3a" : "#00ff73",
             userSelect: "none",
-            pointerEvents: "none", // IMPORTANT: hover/click handled by wrapper
+            pointerEvents: "none",
           }}
         />)}
       </div>

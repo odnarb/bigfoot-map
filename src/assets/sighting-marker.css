@@ -47,6 +47,17 @@
   pointer-events: auto;
 }
 
+.bf-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.bf-icon path {
+  fill: currentColor !important;
+  stroke: #000 !important;
+}
+
 .bf-marker-icon:hover {
   scale: 1.25;
 }
