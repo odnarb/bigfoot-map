@@ -72,11 +72,12 @@ function GoogleMaps() {
         <div id="map-container">
           <Map
             mapTypeControlOptions={{ style: google.maps.MapTypeControlStyle.DROPDOWN_MENU }}
-            mapId={'e0540ff806c06586'}
+            mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
             style={mapStyle}
             reuseMaps
             defaultCenter={mapCenter}
             defaultZoom={5}
+            colorScheme="LIGHT"
             onLoad={(map) => map.current = map}
             onClick={() => setSelectedMarkerId(null)}
             gestureHandling={"greedy"}
