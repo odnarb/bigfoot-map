@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useCallback } from "react";
+import { DateTime } from "luxon";
 import { useJsApiLoader } from "@react-google-maps/api"
 import { Map, APIProvider } from "@vis.gl/react-google-maps"
 
@@ -18,6 +19,8 @@ const mapCenter = {
   lng: -95.712891
 }
 
+const thisYear = DateTime.now().year
+
 function GoogleMaps() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -32,7 +35,9 @@ function GoogleMaps() {
     const reports = BFROReportsByState[activeState] || [];
     return reports.map((r) => {
       const { bfroReportId, name, sightingClass, timestamp, url, position, source } = r;
-      return {
+      const dateTime = DateTime.fromJSDate(new Date(timestamp));
+
+      const marker = {
         id: bfroReportId,
         position,
         title: name,
@@ -42,6 +47,12 @@ function GoogleMaps() {
           source: ${source}<br />
           url: <a target="_blank" href="${url}">${url}</a>`,
       };
+
+      if (!dateTime.invalid) {
+        marker.legacy = thisYear - dateTime.year > 10;
+      }
+
+      return marker
     });
   }, [activeState]);
 

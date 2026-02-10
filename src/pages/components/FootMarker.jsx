@@ -18,11 +18,11 @@ export default function FootMarker({ marker, isSelected, onSelect, onClose }) {
       title={marker.title ?? "Report"}
     >
       <div className={`bf-marker-wrap ${isSelected ? "selected" : ""}`}>
-        {marker.type === "video" && <IoVideocamSharp size={'1.5em'} />}
-        {marker.type === "audio" && <IoVolumeHigh size={'1.5em'} />}
-        {marker.type === "photo" && <IoCamera size={'1.5em'} />}
-        {marker.type === "sighting" && <IoEye size={'1.5em'} />}
-        {marker.type === "footprint" && <GiFootprint size={'1.5em'} />}
+        {marker.type === "video" && <IoVideocamSharp size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {marker.type === "audio" && <IoVolumeHigh size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {marker.type === "photo" && <IoCamera size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {marker.type === "sighting" && <IoEye size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {marker.type === "footprint" && <GiFootprint size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
         {!marker.type && (<img
           src={"/src/assets/bf-silohuette.png"}
           alt=""
