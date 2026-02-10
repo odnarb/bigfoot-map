@@ -1,13 +1,13 @@
 import React from "react";
+import { GiFootprint } from "react-icons/gi";
+import { IoVideocamSharp, IoVolumeHigh, IoCamera, IoEye } from "react-icons/io5";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import { SightingDetails } from "./SightingDetails";
+import BFSilohuette from "../../assets/bf-silohuette.svg?react";
 
 import '../../assets/sighting-marker.css';
 
 export default function FootMarker({ marker, isSelected, onSelect, onClose }) {
-  const size = marker.iconSize ?? 28;
-  const iconUrl = marker.iconUrl ?? "/src/assets/favicon.png";
-
   return (
     <AdvancedMarker
       position={marker.position}
@@ -18,19 +18,22 @@ export default function FootMarker({ marker, isSelected, onSelect, onClose }) {
       zIndex={isSelected ? 999 : 1}
       title={marker.title ?? "Report"}
     >
-      <div className={`bf-marker-wrap ${isSelected ? "selected" : ""}`}>
-        <img
-          src={iconUrl}
+      <div className={`bf-marker-icon ${isSelected ? "selected" : ""}`}>
+        {marker.type === "video" && <IoVideocamSharp size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {marker.type === "audio" && <IoVolumeHigh size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {marker.type === "photo" && <IoCamera size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {marker.type === "sighting" && <IoEye size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {marker.type === "footprint" && <GiFootprint size={'1.5em'} color={marker.legacy ? "#3a3a3a" : "#00ff73"} />}
+        {(!marker.type || marker.type === "") && (<BFSilohuette
           alt=""
           draggable={false}
-          className="bf-marker-icon"
+          className="bf-icon"
           style={{
-            width: size,
-            height: size,
+            color: marker.legacy ? "#3a3a3a" : "#00ff73",
             userSelect: "none",
-            pointerEvents: "none", // IMPORTANT: hover/click handled by wrapper
+            pointerEvents: "none",
           }}
-        />
+        />)}
       </div>
 
       {/* Details bubble (only when selected) */}

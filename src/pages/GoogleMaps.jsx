@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useCallback } from "react";
+import { DateTime } from "luxon";
 import { useJsApiLoader } from "@react-google-maps/api"
 import { Map, APIProvider } from "@vis.gl/react-google-maps"
 
@@ -18,6 +19,8 @@ const mapCenter = {
   lng: -95.712891
 }
 
+const thisYear = DateTime.now().year
+
 function GoogleMaps() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -27,14 +30,14 @@ function GoogleMaps() {
   const [activeState, setActiveState] = useState(null);
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
 
-  const allStates = useMemo(() => Object.keys(StatePolygonsMap).sort(), []);
-
   const markers = useMemo(() => {
     if (!activeState) return [];
     const reports = BFROReportsByState[activeState] || [];
-    return reports.slice(0, 100).map((r) => {
+    return reports.map((r) => {
       const { bfroReportId, name, sightingClass, timestamp, url, position, source } = r;
-      return {
+      const dateTime = DateTime.fromJSDate(new Date(timestamp));
+
+      const marker = {
         id: bfroReportId,
         position,
         title: name,
@@ -44,6 +47,12 @@ function GoogleMaps() {
           source: ${source}<br />
           url: <a target="_blank" href="${url}">${url}</a>`,
       };
+
+      if (!dateTime.invalid) {
+        marker.legacy = thisYear - dateTime.year > 10;
+      }
+
+      return marker
     });
   }, [activeState]);
 
@@ -71,6 +80,7 @@ function GoogleMaps() {
             onLoad={(map) => map.current = map}
             onClick={() => setSelectedMarkerId(null)}
             gestureHandling={"greedy"}
+            lazy={true}
           >
 
             <StatePolygonsLayer StatePolygonsMap={StatePolygonsMap} activeState={activeState} onToggleState={toggleState} setSelectedMarkerId={setSelectedMarkerId} />
