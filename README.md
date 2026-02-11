@@ -97,6 +97,12 @@ Then open the local URL shown in the terminal
 
 ---
 
+## Light & Dark Map Styles (Console-Controlled)
+
+TODO: Build out some instructions on light/dark modes and Google Console controlling map styles.
+
+---
+
 ## Data
 - No private submissions are stored in this repository
 - Current data is public, test, or research-derived
@@ -125,6 +131,5 @@ Interpretation is left to the reader.
 ---
 
 ## Credits
-- BFRO (data references)
-- KMZ source data
-- Bobbie Short and other public sightings (to be integrated)
+- BFRO (KMZ source data)
+- Bobbie Short for sightings/behavioral data (to be integrated)
