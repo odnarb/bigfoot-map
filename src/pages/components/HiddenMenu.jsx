@@ -1,5 +1,6 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { DateTime } from "luxon";
 
 import {
   Box, Toolbar,
@@ -73,10 +74,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function HiddenMenu() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
+
+  const MIN_DATE_YEAR = 1800;
+  const MAX_DATE_YEAR = DateTime.now().year;
+  const [dateRange, setDateRange] = useState([DateTime.now().year - 10, MAX_DATE_YEAR]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -153,7 +158,7 @@ export default function HiddenMenu() {
           ))}
         </List>
 
-        <Divider />
+      <Divider sx={{ my: 1 }} />
 
         {/* Marker Legend */}
         <Box
@@ -173,7 +178,7 @@ export default function HiddenMenu() {
 
         {/* This Box becomes the "page body" area */}
         <Box sx={{ flex: 1, minHeight: 0 }}>
-          <Outlet />
+          <Outlet context={{ dateRange, setDateRange, MIN_DATE_YEAR, MAX_DATE_YEAR }} />
         </Box>
       </Main>
     </Box>

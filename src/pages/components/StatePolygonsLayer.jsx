@@ -27,7 +27,7 @@ export default function StatePolygonsLayer({ StatePolygonsMap, activeState, onTo
             const polyObjs = rings.map((path) => {
                 const poly = new google.maps.Polygon({
                     paths: path,
-                    strokeOpacity: 0.3,
+                    strokeOpacity: 0.2,
                     strokeWeight: 1,
                     fillOpacity: 0.05,
                     clickable: true,

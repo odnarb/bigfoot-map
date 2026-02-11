@@ -1,5 +1,9 @@
-import React, { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback } from "react";
+import { useOutletContext } from 'react-router';
+
 import { DateTime } from "luxon";
+import {Paper, Typography} from '@mui/material';
+
 import { useJsApiLoader } from "@react-google-maps/api"
 import { Map, APIProvider } from "@vis.gl/react-google-maps"
 
@@ -8,6 +12,7 @@ import StatePolygonsMap from '../../data/US-States-Polygons-Map.json'
 
 import StatePolygonsLayer from "./components/StatePolygonsLayer";
 import FootMarker from "./components/FootMarker";
+import DateRangeFilter from './components/DateRangeFilter';
 
 const mapStyle = {
   width: "100%",
@@ -22,6 +27,8 @@ const mapCenter = {
 const thisYear = DateTime.now().year
 
 function GoogleMaps() {
+    const { dateRange, setDateRange, MIN_DATE_YEAR, MAX_DATE_YEAR } = useOutletContext();
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
@@ -33,7 +40,10 @@ function GoogleMaps() {
   const markers = useMemo(() => {
     if (!activeState) return [];
     const reports = BFROReportsByState[activeState] || [];
-    return reports.map((r) => {
+    return reports
+    .filter(r => (new Date(r.timestamp)).getFullYear() > dateRange[0] )
+    .map((r) => {
+      const markerYear = (new Date(r.timestamp)).getFullYear()
       const { bfroReportId, name, sightingClass, timestamp, url, position, source } = r;
       const dateTime = DateTime.fromJSDate(new Date(timestamp));
 
@@ -54,7 +64,7 @@ function GoogleMaps() {
 
       return marker
     });
-  }, [activeState]);
+  }, [activeState, dateRange]);
 
   const handleMarkerClick = useCallback(
     (id) => setSelectedMarkerId((prev) => (prev === id ? null : id)),
@@ -69,7 +79,7 @@ function GoogleMaps() {
         apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
         libraries={['marker']}
       >
-        <div id="map-container">
+        <div id="map-container" style={{ position: 'relative' }}>
           <Map
             mapTypeControlOptions={{ style: google.maps.MapTypeControlStyle.DROPDOWN_MENU }}
             mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
@@ -81,9 +91,8 @@ function GoogleMaps() {
             onLoad={(map) => map.current = map}
             onClick={() => setSelectedMarkerId(null)}
             gestureHandling={"greedy"}
-            lazy={true}
+            lazy
           >
-
             <StatePolygonsLayer StatePolygonsMap={StatePolygonsMap} activeState={activeState} onToggleState={toggleState} setSelectedMarkerId={setSelectedMarkerId} />
 
             {markers.map(marker => (
@@ -96,6 +105,45 @@ function GoogleMaps() {
               />
             ))}
           </Map>
+
+          {/* FLOATING DATE FILTER */}
+          <Paper
+            elevation={4}
+            sx={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 10,
+              p: 1.5,
+              backdropFilter: 'blur(6px)',
+              backgroundColor: 'rgba(30,30,30,0.85)',
+              color: 'white',
+              borderTopLeftRadius: 12,
+              borderTopRightRadius: 12,
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
+            }}
+          >
+            <Typography
+              variant="overline"
+              sx={{
+                px: 2,
+                pb: 0.5,
+                color: 'rgba(255,255,255,0.7)',
+                letterSpacing: 1,
+              }}
+            >
+              Report Date Range
+            </Typography>
+
+            <DateRangeFilter
+              min={MIN_DATE_YEAR}
+              max={MAX_DATE_YEAR}
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+            />
+          </Paper>
         </div>
       </APIProvider>
     </div>
