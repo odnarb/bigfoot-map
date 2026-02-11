@@ -7,7 +7,7 @@ import BFSilohuette from "../../assets/bf-silohuette.svg?react";
 
 import '../../assets/sighting-marker.css';
 
-export default function FootMarker({ marker, isSelected, onSelect, onClose }) {
+export default function SightingMarker({ marker, isSelected, onSelect, onClose }) {
   return (
     <AdvancedMarker
       position={marker.position}

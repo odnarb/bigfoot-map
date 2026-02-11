@@ -11,7 +11,7 @@ import BFROReportsByState from '../../data/BFRO-reports-states-map.json'
 import StatePolygonsMap from '../../data/US-States-Polygons-Map.json'
 
 import StatePolygonsLayer from "./components/StatePolygonsLayer";
-import FootMarker from "./components/FootMarker";
+import SightingMarker from "./components/SightingMarker";
 import DateRangeFilter from './components/DateRangeFilter';
 
 const mapStyle = {
@@ -43,7 +43,6 @@ function GoogleMaps() {
     return reports
     .filter(r => (new Date(r.timestamp)).getFullYear() > dateRange[0] )
     .map((r) => {
-      const markerYear = (new Date(r.timestamp)).getFullYear()
       const { bfroReportId, name, sightingClass, timestamp, url, position, source } = r;
       const dateTime = DateTime.fromJSDate(new Date(timestamp));
 
@@ -96,7 +95,7 @@ function GoogleMaps() {
             <StatePolygonsLayer StatePolygonsMap={StatePolygonsMap} activeState={activeState} onToggleState={toggleState} setSelectedMarkerId={setSelectedMarkerId} />
 
             {markers.map(marker => (
-              <FootMarker
+              <SightingMarker
                 key={marker.id}
                 marker={marker}
                 isSelected={selectedMarkerId === marker.id}
