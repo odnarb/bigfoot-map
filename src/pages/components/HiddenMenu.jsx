@@ -79,10 +79,6 @@ export default function HiddenMenu() {
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
 
-  const MIN_DATE_YEAR = 1800;
-  const MAX_DATE_YEAR = DateTime.now().year;
-  const [dateRange, setDateRange] = useState([DateTime.now().year - 10, MAX_DATE_YEAR]);
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -178,7 +174,7 @@ export default function HiddenMenu() {
 
         {/* This Box becomes the "page body" area */}
         <Box sx={{ flex: 1, minHeight: 0 }}>
-          <Outlet context={{ dateRange, setDateRange, MIN_DATE_YEAR, MAX_DATE_YEAR }} />
+          <Outlet />
         </Box>
       </Main>
     </Box>
