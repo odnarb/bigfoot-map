@@ -133,7 +133,7 @@ export default function MapControlsPanel({
         <FormGroup className="map-controls-switches">
           <FormControlLabel
             control={<Switch checked={showHeatmap} onChange={(event) => onToggleHeatmap(event.target.checked)} />}
-            label="Dynamic Heatmap"
+            label="Heatmap"
           />
           <FormControlLabel
             control={<Switch checked={showCountyOverlay} onChange={(event) => onToggleCountyOverlay(event.target.checked)} />}

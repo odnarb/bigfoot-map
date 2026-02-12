@@ -3,7 +3,8 @@ describe('Map polish and performance smoke', () => {
     cy.visit('/');
     cy.contains('Research Controls').should('be.visible');
     cy.contains('List + Map Split View').should('be.visible');
-    cy.contains('Reports').should('be.visible');
+    cy.get('.report-list-panel').should('not.exist');
+    cy.get('#map-container').should('be.visible');
   });
 
   it('timeline scrub responds without long stalls', () => {

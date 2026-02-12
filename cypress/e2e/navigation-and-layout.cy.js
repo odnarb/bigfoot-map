@@ -20,12 +20,12 @@ describe('Navigation and layout behavior', () => {
 
   it('toggles split view report panel from map controls', () => {
     cy.visit('/');
-    cy.get('.report-list-panel').should('exist');
-
-    cy.contains('List + Map Split View').click();
     cy.get('.report-list-panel').should('not.exist');
 
     cy.contains('List + Map Split View').click();
     cy.get('.report-list-panel').should('exist');
+
+    cy.contains('List + Map Split View').click();
+    cy.get('.report-list-panel').should('not.exist');
   });
 });

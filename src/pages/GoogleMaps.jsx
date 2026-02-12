@@ -366,67 +366,69 @@ export default function GoogleMaps() {
           />
         )}
 
-        <Box id="map-container" className="map-canvas-wrap">
-          {mapLoading ? (
-            <Box className="map-loading">
-              <CircularProgress />
-            </Box>
-          ) : (
-            <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={['marker']}>
-              <Map
-                mapTypeControlOptions={mapTypeControlStyle
-                  ? { style: mapTypeControlStyle }
-                  : undefined}
-                mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
-                style={mapStyle}
-                reuseMaps
-                defaultCenter={mapCenter}
-                defaultZoom={5}
-                colorScheme={colorMode === 'dark' ? 'DARK' : 'LIGHT'}
-                onClick={() => {
-                  setSelectedMarkerId(null);
-                  setMaximizedMarkerId(null);
-                }}
-                gestureHandling="greedy"
-              >
-                <MapBoundsListener onBoundsChange={setMapBounds} />
-                <MapFocusController focusTarget={focusTarget} />
-
-                <StatePolygonsLayer
-                  StatePolygonsMap={StatePolygonsMap}
-                  activeState={activeState}
-                  onToggleState={(stateCode) => {
+        <Box className="map-canvas-wrap">
+          <Box id="map-container">
+            {mapLoading ? (
+              <Box className="map-loading">
+                <CircularProgress />
+              </Box>
+            ) : (
+              <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={['marker']}>
+                <Map
+                  mapTypeControlOptions={mapTypeControlStyle
+                    ? { style: mapTypeControlStyle }
+                    : undefined}
+                  mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
+                  style={mapStyle}
+                  reuseMaps
+                  defaultCenter={mapCenter}
+                  defaultZoom={5}
+                  colorScheme={colorMode === 'dark' ? 'DARK' : 'LIGHT'}
+                  onClick={() => {
                     setSelectedMarkerId(null);
                     setMaximizedMarkerId(null);
-                    setActiveState((previousState) => (previousState === stateCode ? null : stateCode));
                   }}
-                  setSelectedMarkerId={setSelectedMarkerId}
-                />
+                  gestureHandling="greedy"
+                >
+                  <MapBoundsListener onBoundsChange={setMapBounds} />
+                  <MapFocusController focusTarget={focusTarget} />
 
-                {markerReports.map((marker) => (
-                  <SightingMarker
-                    key={marker.id}
-                    marker={marker}
-                    isSelected={selectedMarkerId === marker.id}
-                    isMaximized={maximizedMarkerId === marker.id}
-                    onSelect={() => setSelectedMarkerId((previousValue) => (previousValue === marker.id ? null : marker.id))}
-                    onClose={() => {
+                  <StatePolygonsLayer
+                    StatePolygonsMap={StatePolygonsMap}
+                    activeState={activeState}
+                    onToggleState={(stateCode) => {
                       setSelectedMarkerId(null);
                       setMaximizedMarkerId(null);
+                      setActiveState((previousState) => (previousState === stateCode ? null : stateCode));
                     }}
-                    onToggleMaximize={() => setMaximizedMarkerId((previousValue) => (previousValue === marker.id ? null : marker.id))}
-                    onVoteUp={() => handleVote(marker.id, 'up')}
-                    onVoteDown={() => handleVote(marker.id, 'down')}
-                    registerMarkerInstance={registerMarkerInstance}
+                    setSelectedMarkerId={setSelectedMarkerId}
                   />
-                ))}
 
-                <CountyOverlay reports={viewportReports} isEnabled={showCountyOverlay} />
-                <HeatmapOverlay isEnabled={showHeatmap} points={heatmapPoints} />
-                <ClusterController markerInstances={markerInstances} />
-              </Map>
-            </APIProvider>
-          )}
+                  {markerReports.map((marker) => (
+                    <SightingMarker
+                      key={marker.id}
+                      marker={marker}
+                      isSelected={selectedMarkerId === marker.id}
+                      isMaximized={maximizedMarkerId === marker.id}
+                      onSelect={() => setSelectedMarkerId((previousValue) => (previousValue === marker.id ? null : marker.id))}
+                      onClose={() => {
+                        setSelectedMarkerId(null);
+                        setMaximizedMarkerId(null);
+                      }}
+                      onToggleMaximize={() => setMaximizedMarkerId((previousValue) => (previousValue === marker.id ? null : marker.id))}
+                      onVoteUp={() => handleVote(marker.id, 'up')}
+                      onVoteDown={() => handleVote(marker.id, 'down')}
+                      registerMarkerInstance={registerMarkerInstance}
+                    />
+                  ))}
+
+                  <CountyOverlay reports={viewportReports} isEnabled={showCountyOverlay} />
+                  <HeatmapOverlay isEnabled={showHeatmap} points={heatmapPoints} />
+                  <ClusterController markerInstances={markerInstances} />
+                </Map>
+              </APIProvider>
+            )}
+          </Box>
         </Box>
       </Box>
 

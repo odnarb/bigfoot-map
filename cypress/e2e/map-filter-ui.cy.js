@@ -9,11 +9,11 @@ describe('Map filter UI options', () => {
     cy.contains('Research Controls').should('be.visible');
 
     mapControlSwitch('BFRO').should('be.checked');
-    mapControlSwitch('Woodape').should('be.checked');
-    mapControlSwitch('Kilmury').should('be.checked');
-    mapControlSwitch('Dynamic Heatmap').should('be.checked');
+    mapControlSwitch('Woodape').should('not.be.checked');
+    mapControlSwitch('Kilmury').should('not.be.checked');
+    mapControlSwitch('Heatmap').should('not.be.checked');
     mapControlSwitch('County Overlay').should('not.be.checked');
-    mapControlSwitch('List + Map Split View').should('be.checked');
+    mapControlSwitch('List + Map Split View').should('not.be.checked');
 
     cy.contains('.MuiFormControlLabel-root', 'BFRO').click();
     mapControlSwitch('BFRO').should('not.be.checked');
@@ -25,13 +25,13 @@ describe('Map filter UI options', () => {
     cy.contains('.MuiFormControlLabel-root', 'County Overlay').click();
     mapControlSwitch('County Overlay').should('not.be.checked');
 
-    cy.get('.report-list-panel').should('exist');
-    cy.contains('.MuiFormControlLabel-root', 'List + Map Split View').click();
-    mapControlSwitch('List + Map Split View').should('not.be.checked');
     cy.get('.report-list-panel').should('not.exist');
     cy.contains('.MuiFormControlLabel-root', 'List + Map Split View').click();
     mapControlSwitch('List + Map Split View').should('be.checked');
     cy.get('.report-list-panel').should('exist');
+    cy.contains('.MuiFormControlLabel-root', 'List + Map Split View').click();
+    mapControlSwitch('List + Map Split View').should('not.be.checked');
+    cy.get('.report-list-panel').should('not.exist');
   });
 
   it('updates timeline filter label when scrubbed', () => {

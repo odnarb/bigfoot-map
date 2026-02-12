@@ -61,6 +61,15 @@ function mapControlSwitch(labelText) {
   return cy.contains('.MuiFormControlLabel-root', labelText).find('input[type="checkbox"]');
 }
 
+function ensureSplitViewEnabled() {
+  mapControlSwitch('List + Map Split View').then(($checkbox) => {
+    if (!$checkbox.prop('checked')) {
+      cy.contains('.MuiFormControlLabel-root', 'List + Map Split View').click();
+    }
+  });
+  mapControlSwitch('List + Map Split View').should('be.checked');
+}
+
 function readVisibleCount() {
   return cy.contains('.MuiChip-label', /visible/).invoke('text').then((labelText) => Number.parseInt(labelText, 10));
 }
@@ -81,52 +90,56 @@ function visitMapWithStubbedReports() {
 describe('Map filtering suite', () => {
   it('renders the map canvas with controls and seeded list data', () => {
     visitMapWithStubbedReports();
+    ensureSplitViewEnabled();
 
     cy.contains('Research Controls').should('be.visible');
     cy.get('#map-container').should('be.visible');
     cy.get('.map-canvas-wrap').should('be.visible');
-    cy.contains('.MuiChip-label', '4 visible').should('be.visible');
+    cy.contains('.MuiChip-label', '2 visible').should('be.visible');
     cy.contains('BFRO Legacy Sighting').should('exist');
-    cy.contains('Kilmury Entry').should('exist');
+    cy.contains('Kilmury Entry').should('not.exist');
   });
 
   it('filters report results by dataset toggles', () => {
     visitMapWithStubbedReports();
+    ensureSplitViewEnabled();
+    cy.contains('.MuiChip-label', '2 visible').should('be.visible');
+
+    cy.contains('.MuiFormControlLabel-root', 'Woodape').click();
+    cy.contains('.MuiChip-label', '3 visible').should('be.visible');
+
+    cy.contains('.MuiFormControlLabel-root', 'Kilmury').click();
     cy.contains('.MuiChip-label', '4 visible').should('be.visible');
 
     cy.contains('.MuiFormControlLabel-root', 'BFRO').click();
     cy.contains('.MuiChip-label', '2 visible').should('be.visible');
-
-    cy.contains('.MuiFormControlLabel-root', 'Woodape').click();
-    cy.contains('.MuiChip-label', '1 visible').should('be.visible');
-
-    cy.contains('.MuiFormControlLabel-root', 'Kilmury').click();
-    cy.contains('.MuiChip-label', '0 visible').should('be.visible');
   });
 
   it('updates visible report count when timeline is scrubbed backward', () => {
     visitMapWithStubbedReports();
-    cy.contains('.MuiChip-label', '4 visible').should('be.visible');
+    ensureSplitViewEnabled();
+    cy.contains('.MuiChip-label', '2 visible').should('be.visible');
 
     cy.get('[aria-label^="Timeline Scrub"]').first().focus().type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}');
 
     readVisibleCount().then((visibleCount) => {
-      expect(visibleCount).to.be.lessThan(4);
+      expect(visibleCount).to.be.lessThan(2);
     });
   });
 
   it('updates visible report count when date range bounds are changed', () => {
     visitMapWithStubbedReports();
-    cy.contains('.MuiChip-label', '4 visible').should('be.visible');
+    ensureSplitViewEnabled();
+    cy.contains('.MuiChip-label', '2 visible').should('be.visible');
 
     cy.get('[aria-label="Date Range"]').first().focus().type('{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}');
     readVisibleCount().then((visibleCount) => {
-      expect(visibleCount).to.be.lessThan(4);
+      expect(visibleCount).to.be.lessThan(2);
     });
 
     cy.get('[aria-label="Date Range"]').last().focus().type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}');
     readVisibleCount().then((visibleCount) => {
-      expect(visibleCount).to.be.lessThan(4);
+      expect(visibleCount).to.be.lessThan(2);
     });
 
     mapControlSwitch('List + Map Split View').should('be.checked');

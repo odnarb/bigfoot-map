@@ -3,12 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   datasetVisibility: {
     bfro: true,
-    woodape: true,
-    kilmury: true,
+    woodape: false,
+    kilmury: false,
   },
-  showHeatmap: true,
+  showHeatmap: false,
   showCountyOverlay: false,
-  splitViewEnabled: true,
+  splitViewEnabled: false,
   colorMode: 'light',
 };
 
