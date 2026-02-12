@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { GiFootprint } from "react-icons/gi";
 import { IoVideocamSharp, IoVolumeHigh, IoCamera, IoEye } from "react-icons/io5";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
@@ -7,9 +7,28 @@ import BFSilohuette from "../../assets/bf-silohuette.svg?react";
 
 import '../../assets/sighting-marker.css';
 
-export default function FootMarker({ marker, isSelected, onSelect, onClose }) {
+export default function SightingMarker({ marker, isSelected, onSelect, onClose, registerMarkerInstance }) {
+  const lastInstanceRef = useRef(null);
+
+  const handleMarkerRef = useCallback(
+    (instance) => {
+      // instance is the underlying AdvancedMarkerElement (or null)
+      if (lastInstanceRef.current === instance) return;
+
+      lastInstanceRef.current = instance;
+      registerMarkerInstance(marker.id, instance || null);
+    },
+    [marker.id, registerMarkerInstance]
+  );
+
+  // Ensure we unregister on unmount
+  useEffect(() => {
+    return () => registerMarkerInstance(marker.id, null);
+  }, [marker.id, registerMarkerInstance]);
+
   return (
     <AdvancedMarker
+      ref={handleMarkerRef}
       position={marker.position}
       onClick={(e) => {
         e?.domEvent?.stopPropagation?.();
