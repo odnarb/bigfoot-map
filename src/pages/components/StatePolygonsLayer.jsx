@@ -51,7 +51,7 @@ export default function StatePolygonsLayer({ StatePolygonsMap, activeState, onTo
                 arr.forEach((p) => p.setMap(null));
             }
         };
-    }, [map, onToggleState]);
+    }, [map, onToggleState, setSelectedMarkerId, StatePolygonsMap]);
 
     // Style update when activeState changes
     useEffect(() => {

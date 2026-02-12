@@ -1,43 +1,78 @@
 import React from 'react';
+import DOMPurify from 'dompurify';
+import { Chip, Stack, Typography } from '@mui/material';
 
-import DOMPurify from "dompurify";
-
-export function SightingDetails({ marker }) {
+/**
+ * Renders report details inside marker popup.
+ *
+ * @param {{
+ *  marker: Record<string, any>,
+ *  showExtended?: boolean
+ * }} props - Component props.
+ * @returns {JSX.Element} Report details UI.
+ */
+export function SightingDetails({ marker, showExtended = false }) {
   const sanitizedHtml = React.useMemo(() => {
+    if (!marker?.info) {
+      return '';
+    }
+
     return DOMPurify.sanitize(marker.info, {
-      ADD_ATTR: ["target", "rel"],
-      FORBID_TAGS: ["script"],
+      ADD_ATTR: ['target', 'rel'],
+      FORBID_TAGS: ['script'],
       ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
       RETURN_DOM: false,
     });
-  }, [marker.info]);
-
-  // Post-process links to enforce target + rel
-  const htmlWithBlankTargets = React.useMemo(() => {
-    const div = document.createElement("div");
-    div.innerHTML = sanitizedHtml;
-
-    div.querySelectorAll("a").forEach((a) => {
-      a.setAttribute("target", "_blank");
-      a.setAttribute("rel", "noopener noreferrer");
-    });
-
-    return div.innerHTML;
-  }, [sanitizedHtml]);
+  }, [marker?.info]);
 
   return (
     <div className="details-container">
-      <div className="listing-content">
-        <h2>{marker.title}</h2>
-        <p>Lat: {marker.position.lat}, Long: {marker.position.lng}</p>
+      <Stack spacing={1}>
+        <Typography variant="subtitle1" fontWeight={700}>
+          {marker.title}
+        </Typography>
 
-        <p
-          className="description"
-          dangerouslySetInnerHTML={{
-            __html: htmlWithBlankTargets
-          }}
-        />
-      </div>
+        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+          <Chip label={marker.datasetKey?.toUpperCase() || 'DATA'} size="small" />
+          <Chip label={marker.triage?.status || 'new'} size="small" color="primary" variant="outlined" />
+          <Chip label={marker.triage?.tier || 'unreviewed'} size="small" variant="outlined" />
+          <Chip label={`👍 ${marker.votes?.up || 0}`} size="small" variant="outlined" />
+          <Chip label={`👎 ${marker.votes?.down || 0}`} size="small" variant="outlined" />
+        </Stack>
+
+        {marker.position && (
+          <Typography variant="caption">
+            Lat: {marker.position.lat}, Lng: {marker.position.lng}
+          </Typography>
+        )}
+        {marker.isoDate && (
+          <Typography variant="caption">
+            Date: {marker.isoDate.slice(0, 10)}
+          </Typography>
+        )}
+        {marker.followedUpBy && (
+          <Typography variant="caption">
+            Followed up by: {marker.followedUpBy}
+          </Typography>
+        )}
+        {!!marker.summary && (
+          <Typography variant="body2">
+            {marker.summary}
+          </Typography>
+        )}
+        {!marker.summary && !!sanitizedHtml && (
+          <p
+            className="description"
+            dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+          />
+        )}
+
+        {showExtended && marker.sourceUrl && (
+          <a href={marker.sourceUrl} target="_blank" rel="noreferrer noopener">
+            Source link
+          </a>
+        )}
+      </Stack>
     </div>
   );
-};
+}

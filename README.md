@@ -95,6 +95,14 @@ npm run dev
 Then open the local URL shown in the terminal  
 (usually `http://localhost:5173`).
 
+`npm run dev` starts both the Vite client and the API server.
+If you want to run them separately:
+
+```bash
+npm run dev:server
+npm run dev:client
+```
+
 ---
 
 ## Light & Dark Map Styles (Console-Controlled)
@@ -133,3 +141,17 @@ Interpretation is left to the reader.
 ## Credits
 - BFRO (KMZ source data)
 - Bobbie Short for sightings/behavioral data (to be integrated)
+
+---
+
+## 2026 Implementation Update
+- Added modular backend scaffold: `Express` + `helmet` + `cors` + swappable auth provider
+- Added local Firestore-like DB layer with CRUD/query semantics
+- Added backend tests (Jest + Supertest) and Cypress e2e scaffolding
+- Added RTK Query frontend server-state layer
+- Added dynamic heatmap (viewport + date range + timeline scrub)
+- Added dataset toggles (BFRO / Woodape / Kilmury) and auto-updating legend
+- Added split list/map view with click-to-focus behavior
+- Added popup maximize + voting actions
+- Added county activity overlay and CSV/GeoJSON export
+- Added light/dark mode with marker color adaptation

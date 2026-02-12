@@ -1,38 +1,43 @@
 import { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import { DateTime } from "luxon";
-
+import { useSelector } from 'react-redux';
 import {
-  Box, Toolbar,
   AppBar as MuiAppBar,
-  List, CssBaseline, Typography, Divider, IconButton,
-  ListItem, ListItemButton, ListItemText, ListItemIcon,
-  Drawer
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Switch,
+  Toolbar,
+  Typography,
 } from '@mui/material';
-
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
+  HelpCenter as HelpCenterIcon,
+  Home as HomeIcon,
   Menu as MenuIcon,
   Report as ReportIcon,
   VolunteerActivism as VolunteerActivismIcon,
-  Home as HomeIcon,
-  HelpCenter as HelpCenterIcon
 } from '@mui/icons-material';
-
 import { Link, Outlet } from 'react-router';
-
+import { useAppThemeMode } from '../../theme/AppThemeProvider';
 import MarkerLegend from './MarkerLegend';
 
-// TODO: Probably need to create a consts file for the frontend.
 const menuItems = [
   { text: 'Home', url: '/', icon: <HomeIcon /> },
   { text: 'Submit Report', url: '/submit-report', icon: <ReportIcon /> },
   { text: 'Donate', url: '/donate', icon: <VolunteerActivismIcon /> },
-  { text: 'About', url: '/about', icon: <HelpCenterIcon /> }
+  { text: 'About', url: '/about', icon: <HelpCenterIcon /> },
 ];
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -43,7 +48,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
     marginLeft: open ? 0 : `-${drawerWidth}px`,
     padding: 0,
-  })
+  }),
 );
 
 const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -60,39 +65,39 @@ const AppBar = styled(MuiAppBar, { shouldForwardProp: (prop) => prop !== 'open' 
         duration: theme.transitions.duration.enteringScreen,
       }),
     }),
-  })
+  }),
 );
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+  justifyContent: 'space-between',
 }));
 
+/**
+ * Root app shell with a collapsible navigation drawer.
+ *
+ * @returns {JSX.Element} App shell layout.
+ */
 export default function HiddenMenu() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
-  const handleDrawerOpen = () => setOpen(true);
-  const handleDrawerClose = () => setOpen(false);
+  const { mode, toggleMode } = useAppThemeMode();
+  const datasetVisibility = useSelector((state) => state.mapUi.datasetVisibility);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={() => setOpen(true)}
             edge="start"
-            sx={[
-              { mr: 2 },
-              open && { display: 'none' },
-            ]}
+            sx={{ mr: 2, ...(open ? { display: 'none' } : {}) }}
           >
             <MenuIcon />
           </IconButton>
@@ -107,8 +112,6 @@ export default function HiddenMenu() {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
-            display: 'flex',
-            flexDirection: 'column'
           },
         }}
         variant="persistent"
@@ -116,64 +119,48 @@ export default function HiddenMenu() {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <Typography variant="subtitle1" sx={{ pl: 1 }}>Navigation</Typography>
+          <IconButton onClick={() => setOpen(false)}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
 
         <Divider />
-
-        {/* Top nav links */}
-        <List sx={{ flex: 0 }}>
-          {menuItems.map((item, index) => (
+        <List>
+          {menuItems.map((item) => (
             <ListItem
               component={Link}
-              key={index}
+              key={item.text}
               disablePadding
-              sx={{ display: 'block' }}
               to={item.url}
               onClick={() => setOpen(false)}
             >
-              <ListItemButton
-                sx={[
-                  { minHeight: 48, px: 2.5 },
-                  open ? { justifyContent: 'initial' } : { justifyContent: 'center' },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    { minWidth: 0, justifyContent: 'center' },
-                    open ? { mr: 3 } : { mr: 'auto' },
-                  ]}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.text} sx={[open ? { opacity: 1 } : { opacity: 0 }]} />
+              <ListItemButton>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
 
-      <Divider sx={{ my: 1 }} />
+        <Divider />
+        <Box sx={{ px: 2, py: 1 }}>
+          <Typography variant="subtitle2">Theme</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="body2">{mode === 'dark' ? 'Dark mode' : 'Light mode'}</Typography>
+            <Switch checked={mode === 'dark'} onChange={toggleMode} />
+          </Box>
+        </Box>
 
-        {/* Marker Legend */}
-        <Box
-          sx={{
-            px: 1,
-            pb: 1,
-            maxHeight: '80vh',
-            overflowY: 'auto',
-          }}
-        >
-          <MarkerLegend />
+        <Divider />
+        <Box sx={{ px: 1, pb: 1, maxHeight: '70vh', overflowY: 'auto' }}>
+          <MarkerLegend datasetVisibility={datasetVisibility} />
         </Box>
       </Drawer>
 
-      <Main open={open} sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <Main open={open}>
         <DrawerHeader />
-
-        {/* This Box becomes the "page body" area */}
-        <Box sx={{ flex: 1, minHeight: 0 }}>
+        <Box sx={{ minHeight: 'calc(100vh - 64px)' }}>
           <Outlet />
         </Box>
       </Main>

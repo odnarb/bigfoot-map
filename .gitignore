@@ -148,3 +148,8 @@ dist-ssr
 *.sw?
 
 data/*
+server/storage/local-firestore.json
+cypress/screenshots
+cypress/videos
+
+AGENT-NOTES.md
