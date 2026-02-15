@@ -169,13 +169,13 @@ export default function GoogleMaps() {
   const splitViewEnabled = useSelector((state) => state.mapUi.splitViewEnabled);
   const colorMode = useSelector((state) => state.mapUi.colorMode);
 
-  const [yearRange, setYearRange] = useState([thisYear - 20, thisYear]);
   const [timelineYear, setTimelineYear] = useState(thisYear);
   const [activeState, setActiveState] = useState(null);
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
   const [maximizedMarkerId, setMaximizedMarkerId] = useState(null);
   const [mapBounds, setMapBounds] = useState(null);
   const [focusTarget, setFocusTarget] = useState(null);
+  const [controlsCollapsed, setControlsCollapsed] = useState(false);
   const [clientId, setClientId] = useState('anonymous-client');
   const [toastMessage, setToastMessage] = useState('');
   const [fallbackVoteState, setFallbackVoteState] = useState({});
@@ -191,11 +191,9 @@ export default function GoogleMaps() {
 
   const reportsQueryFilters = useMemo(() => ({
     datasets: enabledDatasets,
-    fromYear: yearRange[0],
-    toYear: yearRange[1],
     bounds: boundsToQueryValue(mapBounds),
     includeWithoutCoordinates: true,
-  }), [enabledDatasets, yearRange, mapBounds]);
+  }), [enabledDatasets, mapBounds]);
 
   const reportsQuery = useGetReportsQuery(reportsQueryFilters);
 
@@ -218,18 +216,31 @@ export default function GoogleMaps() {
   }, [reportsQuery.data]);
 
   const sourceReports = apiReports.length > 0 ? apiReports : localReports;
-  const fromTimestampMs = Date.UTC(yearRange[0], 0, 1, 0, 0, 0, 0);
-  const toTimestampMs = Date.UTC(yearRange[1], 11, 31, 23, 59, 59, 999);
+
+  const availableYearBounds = useMemo(() => {
+    const timelineYears = sourceReports
+      .map((report) => DateTime.fromMillis(Number(report.timestampMs || 0)).year)
+      .filter((yearValue) => Number.isFinite(yearValue) && yearValue >= 1800 && yearValue <= thisYear + 1);
+
+    if (timelineYears.length === 0) {
+      return { minYear: thisYear, maxYear: thisYear };
+    }
+
+    return {
+      minYear: Math.min(...timelineYears),
+      maxYear: Math.max(...timelineYears),
+    };
+  }, [sourceReports]);
+
   const timelineTimestampMs = Date.UTC(timelineYear, 11, 31, 23, 59, 59, 999);
 
   const filteredReports = useMemo(() => {
     return sourceReports
       .filter((report) => enabledDatasets.includes(report.datasetKey))
       .filter((report) => !activeState || report.stateCode === activeState)
-      .filter((report) => report.timestampMs >= fromTimestampMs && report.timestampMs <= toTimestampMs)
       .filter((report) => report.timestampMs <= timelineTimestampMs)
       .sort((left, right) => right.timestampMs - left.timestampMs);
-  }, [sourceReports, enabledDatasets, activeState, fromTimestampMs, toTimestampMs, timelineTimestampMs]);
+  }, [sourceReports, enabledDatasets, activeState, timelineTimestampMs]);
 
   const mapReports = useMemo(() => filteredReports.filter((report) => report.position), [filteredReports]);
   const viewportReports = useMemo(
@@ -274,12 +285,16 @@ export default function GoogleMaps() {
   }, []);
 
   useEffect(() => {
-    if (timelineYear < yearRange[0]) {
-      setTimelineYear(yearRange[0]);
-    } else if (timelineYear > yearRange[1]) {
-      setTimelineYear(yearRange[1]);
-    }
-  }, [timelineYear, yearRange]);
+    setTimelineYear((previousYear) => {
+      if (previousYear < availableYearBounds.minYear) {
+        return availableYearBounds.minYear;
+      }
+      if (previousYear > availableYearBounds.maxYear) {
+        return availableYearBounds.maxYear;
+      }
+      return previousYear;
+    });
+  }, [availableYearBounds]);
 
   const registerMarkerInstance = useCallback((id, instanceOrNull) => {
     const markerMap = markerMapRef.current;
@@ -341,9 +356,9 @@ export default function GoogleMaps() {
   return (
     <Box className="maps-page">
       <MapControlsPanel
-        yearRange={yearRange}
-        onYearRangeChange={setYearRange}
         timelineYear={timelineYear}
+        minYear={availableYearBounds.minYear}
+        maxYear={availableYearBounds.maxYear}
         onTimelineYearChange={setTimelineYear}
         datasetVisibility={datasetVisibility}
         onToggleDataset={(datasetKey, visible) => dispatch(setDatasetVisibility({ datasetKey, visible }))}
@@ -355,6 +370,8 @@ export default function GoogleMaps() {
         onToggleSplitView={(nextValue) => dispatch(setSplitViewEnabled(nextValue))}
         onExportCsv={() => exportReportsAsCsv(filteredReports)}
         onExportGeoJson={() => exportReportsAsGeoJson(filteredReports)}
+        controlsCollapsed={controlsCollapsed}
+        onToggleControlsCollapsed={() => setControlsCollapsed((value) => !value)}
       />
 
       <Box className={`maps-content ${splitViewEnabled ? 'maps-content-split' : ''}`}>

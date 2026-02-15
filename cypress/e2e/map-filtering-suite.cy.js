@@ -74,6 +74,13 @@ function readVisibleCount() {
   return cy.contains('.MuiChip-label', /visible/).invoke('text').then((labelText) => Number.parseInt(labelText, 10));
 }
 
+function stubDownloadApis() {
+  cy.window().then((windowObject) => {
+    cy.stub(windowObject.URL, 'createObjectURL').returns('blob:map-export-test').as('createObjectURL');
+    cy.stub(windowObject.URL, 'revokeObjectURL').as('revokeObjectURL');
+  });
+}
+
 function visitMapWithStubbedReports() {
   cy.intercept('GET', '**/api/reports*', {
     statusCode: 200,
@@ -127,22 +134,27 @@ describe('Map filtering suite', () => {
     });
   });
 
-  it('updates visible report count when date range bounds are changed', () => {
+  it('supports county overlay, exports, and filter collapse actions', () => {
     visitMapWithStubbedReports();
     ensureSplitViewEnabled();
-    cy.contains('.MuiChip-label', '2 visible').should('be.visible');
-
-    cy.get('[aria-label="Date Range"]').first().focus().type('{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}{rightarrow}');
-    readVisibleCount().then((visibleCount) => {
-      expect(visibleCount).to.be.lessThan(2);
-    });
-
-    cy.get('[aria-label="Date Range"]').last().focus().type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}');
-    readVisibleCount().then((visibleCount) => {
-      expect(visibleCount).to.be.lessThan(2);
-    });
+    stubDownloadApis();
 
     mapControlSwitch('List + Map Split View').should('be.checked');
     cy.get('#map-container .gm-style').should('exist');
+    cy.contains('.report-list-row', 'BFRO Modern Sighting').click();
+
+    cy.contains('.MuiFormControlLabel-root', 'County Overlay').click();
+    mapControlSwitch('County Overlay').should('be.checked');
+    cy.get('.county-overlay-chip', { timeout: 10000 }).should('have.length.at.least', 1);
+
+    cy.contains('button', /^CSV$/).click();
+    cy.contains('button', /^GeoJSON$/).click();
+    cy.get('@createObjectURL').should('have.been.called');
+
+    cy.contains('button', 'Hide Filters').click();
+    cy.contains('button', 'Show Filters').should('be.visible');
+    cy.get('#map-container .gm-style').should('exist');
+    cy.contains('button', 'Show Filters').click();
+    cy.contains('button', 'Hide Filters').should('be.visible');
   });
 });

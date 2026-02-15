@@ -79,7 +79,7 @@ export default function SightingMarker({
         event?.domEvent?.stopPropagation?.();
         onSelect?.();
       }}
-      zIndex={isSelected ? 999 : 1}
+      zIndex={isSelected ? 10000 : 10}
       title={marker.title ?? 'Report'}
     >
       <div className={`bf-marker-icon ${isSelected ? 'selected' : ''}`}>

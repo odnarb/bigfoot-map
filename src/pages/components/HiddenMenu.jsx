@@ -88,7 +88,7 @@ export default function HiddenMenu() {
   const datasetVisibility = useSelector((state) => state.mapUi.datasetVisibility);
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', height: '100dvh' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -160,7 +160,7 @@ export default function HiddenMenu() {
 
       <Main open={open}>
         <DrawerHeader />
-        <Box sx={{ minHeight: 'calc(100vh - 64px)' }}>
+        <Box sx={{ height: { xs: 'calc(100dvh - 56px)', sm: 'calc(100dvh - 64px)' } }}>
           <Outlet />
         </Box>
       </Main>

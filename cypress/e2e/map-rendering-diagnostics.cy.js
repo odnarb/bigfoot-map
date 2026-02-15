@@ -67,10 +67,12 @@ describe('Map rendering diagnostics', () => {
     visitMapWithStubbedData();
 
     cy.window().its('google.maps').should('exist');
+    cy.get('.map-canvas-wrap').should('be.visible');
+    cy.get('.map-canvas-wrap').should('have.css', 'border-top-width', '0px');
     cy.get('#map-container').should('be.visible');
     cy.get('#map-container').should(($container) => {
-      expect($container.height()).to.be.greaterThan(250);
-      expect($container.width()).to.be.greaterThan(250);
+      expect($container.height()).to.be.greaterThan(420);
+      expect($container.width()).to.be.greaterThan(700);
     });
 
     cy.get('#map-container .gm-style', { timeout: 10000 }).should('exist');

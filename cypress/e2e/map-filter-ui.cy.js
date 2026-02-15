@@ -7,6 +7,14 @@ describe('Map filter UI options', () => {
     cy.visit('/');
 
     cy.contains('Research Controls').should('be.visible');
+    cy.contains('button', 'Hide Filters').should('be.visible');
+
+    cy.contains('button', 'Hide Filters').click();
+    cy.contains('button', 'Show Filters').should('be.visible');
+    cy.contains('.MuiFormControlLabel-root', 'BFRO').should('not.exist');
+
+    cy.contains('button', 'Show Filters').click();
+    cy.contains('button', 'Hide Filters').should('be.visible');
 
     mapControlSwitch('BFRO').should('be.checked');
     mapControlSwitch('Woodape').should('not.be.checked');
@@ -53,7 +61,5 @@ describe('Map filter UI options', () => {
           .invoke('attr', 'aria-label')
           .should('include', `(${initialYear - 2})`);
       });
-
-    cy.get('[aria-label="Date Range"]').should('exist');
   });
 });
