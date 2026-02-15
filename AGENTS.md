@@ -17,6 +17,11 @@ Write a set of needs to AGENT-NOTES.md that the human will review if:
 
 If something is worthy of placing into the README.md then update its notes.
 
+## Notes and Issue Tracking
+
+- Place notes for yourself in AGENT-NOTES.md and track issues, descrepencies in AGENT-ISSUES.md
+- Once you no longer need these contexts clean clear (or zero) them out but keep them around because they will be useful
+
 ## Branching
 - Create new code branched from dev. Pull first before creating your new branch.
 - Add features to features/[human-readable-branch-name]
